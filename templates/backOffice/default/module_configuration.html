@@ -1,0 +1,102 @@
+{if isset($smarty.get.tab)}
+  {$tab=$smarty.get.tab}
+{else}
+  {$tab='list'}
+{/if}
+<style>
+  input[type=number]
+  {
+    min-width:100px;
+  }
+</style>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="general-block-decorator">
+      <div class="row">
+        <div class="col-md-12">
+          <ul id="tabbed-menu" class="nav nav-tabs">
+            <li class="{if $tab eq "list"}active{/if}"><a data-toggle="tab" href="#list">{intl l="List Custom Contact Form" d='customcontactform.bo.default'}</a> </li>
+            <li class="{if $tab eq "create"}active{/if}"><a data-toggle="tab" href="#create">{intl l="Create Custom Contact Form" d='customcontactform.bo.default'}</a> </li>
+          </ul>
+
+          <div class="tab-content">
+            <div id="list" class="tab-pane {if $tab eq "list"}active{/if} form-container">
+              <br>
+
+              <div class="title">
+                {intl l="List Custom Contact Form" d='customcontactform.bo.default'}
+              </div>
+
+              <table class="table table-condensed table-striped">
+                <thead>
+                <tr>
+                  <th>{intl l='Title' d='customcontactform.bo.default'}</th>
+                  <th>{intl l='Code' d='customcontactform.bo.default'}</th>
+                  <th>{intl l='Field Configuration' d='customcontactform.bo.default'}</th>
+                  <th>{intl l='Receiver Email' d='customcontactform.bo.default'}</th>
+                  <th>&nbsp;</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {loop type="custom_contact_form_loop" name="custom_contact_form"}
+                  <tr>
+                    <td>{$TITLE}</td>
+
+                    <td>{$CODE}</td>
+
+                    <td>{$FIELD_CONFIGURATION}</td>
+
+                    <td>{$EMAIL}</td>
+
+                    <td>
+                      <a href="{url path="/admin/module/CustomContactForm/delete/$ID"}" class="btn btn-danger" title="{intl l='Delete this custom contact form' d='customcontactform.bo.default'}">
+                        <i class="glyphicon glyphicon-remove"></i>
+                      </a>
+                    </td>
+                  </tr>
+                {/loop}
+                </tbody>
+              </table>
+            </div>
+
+            <div id="create" class="tab-pane {if $tab eq "create"}active{/if} form-container">
+              <br>
+
+              <div class="title">
+                {intl l="Create Custom Contact Form" d='customcontactform.bo.default'}
+              </div>
+
+            {form name="custom_contact_form_form"}
+              <form method="POST" action="{url path="/admin/module/CustomContactForm/create"}" {form_enctype} >
+
+                {render_form_field field="success_url" value={url path='/admin/module/CustomContactForm'}}
+                {render_form_field field="error_url" value={url path='/admin/module/CustomContactForm'}}
+
+                {form_hidden_fields }
+
+                {if $form_error}
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="alert alert-danger">{$form_error_message}</div>
+                    </div>
+                  </div>
+                {/if}
+
+                <div class="col-md-6">
+                  {render_form_field field='title'}
+                  {render_form_field field='code'}
+                  {render_form_field field='field_configuration'}
+                  {render_form_field field='receiver_email'}
+                  <button type="submit" class="btn btn-success" >{intl l="Save Form" d="customcontactform.bo.default"}</button>
+                </div>
+              </form>
+            {/form}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

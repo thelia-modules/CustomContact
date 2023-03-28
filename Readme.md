@@ -42,3 +42,7 @@ Example basic of field configuration (Json):
     }
 ]
 ```
+
+## Loop
+
+[custom_contact_form_loop]

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database defaultIdMethod="native" name="TheliaMain" namespace="CustomContactForm\Model" >
+
+    <table name="custom_contact_form">
+        <column autoIncrement="true" name="id" primaryKey="true" required="true" type="INTEGER" />
+        <column name="title" size="255" type="VARCHAR" />
+        <column name="code" size="255" type="VARCHAR" />
+        <column name="field_configuration" type="LONGVARCHAR" />
+        <column name="email" size="255" type="VARCHAR" />
+        <behavior name="timestampable" />
+        <behavior name="i18n">
+            <parameter name="i18n_custom_contact_form" value="title" />
+        </behavior>
+    </table>
+
+  <external-schema filename="local/config/schema.xml" referenceOnly="true" />
+</database>
