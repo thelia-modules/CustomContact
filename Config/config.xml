@@ -6,6 +6,7 @@
 
     <loops>
         <loop name="custom_contact_loop" class="CustomContact\Loop\CustomContactLoop" />
+        <loop name="custom_contact_field_loop" class="CustomContact\Loop\CustomContactFieldLoop" />
     </loops>
 
     <forms>

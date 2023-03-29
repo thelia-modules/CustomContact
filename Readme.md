@@ -46,3 +46,5 @@ Example basic of field configuration (Json):
 ## Loop
 
 [custom_contact_loop]
+
+[custom_contact_field_loop]
