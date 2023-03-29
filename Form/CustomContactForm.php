@@ -1,14 +1,14 @@
 <?php
 
-namespace CustomContactForm\Form;
+namespace CustomContact\Form;
 
-use CustomContactForm\CustomContactForm;
+use CustomContact\CustomContact;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Thelia\Core\Translation\Translator;
 use Thelia\Form\BaseForm;
 
-class CustomContactFormForm extends BaseForm
+class CustomContactForm extends BaseForm
 {
 
     protected function buildForm()
@@ -19,7 +19,7 @@ class CustomContactFormForm extends BaseForm
                 TextType::class,
                 options: [
                     'required' => true,
-                    'label' => Translator::getInstance()->trans('title', [], CustomContactForm::DOMAIN_NAME)
+                    'label' => Translator::getInstance()->trans('title', [], CustomContact::DOMAIN_NAME)
                 ]
             )
             ->add(
@@ -27,7 +27,7 @@ class CustomContactFormForm extends BaseForm
                 TextType::class,
                 options: [
                     'required' => true,
-                    'label' => Translator::getInstance()->trans('code', [], CustomContactForm::DOMAIN_NAME)
+                    'label' => Translator::getInstance()->trans('code', [], CustomContact::DOMAIN_NAME)
                 ]
             )
             ->add(
@@ -35,7 +35,7 @@ class CustomContactFormForm extends BaseForm
                 TextareaType::class,
                 options: [
                     'required' => true,
-                    'label' => Translator::getInstance()->trans('field_configuration', [], CustomContactForm::DOMAIN_NAME)
+                    'label' => Translator::getInstance()->trans('field_configuration', [], CustomContact::DOMAIN_NAME)
                 ]
             )
             ->add(
@@ -43,7 +43,7 @@ class CustomContactFormForm extends BaseForm
                 TextType::class,
                 options: [
                     'required' => true,
-                    'label' => Translator::getInstance()->trans('receiver_email', [], CustomContactForm::DOMAIN_NAME)
+                    'label' => Translator::getInstance()->trans('receiver_email', [], CustomContact::DOMAIN_NAME)
                 ]
             )
             ;
@@ -51,6 +51,6 @@ class CustomContactFormForm extends BaseForm
 
     public static function getName()
     {
-        return 'custom_contact_form_form';
+        return 'custom_contact_form';
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace CustomContactForm\Hook;
+namespace CustomContact\Hook;
 
 use HookAdminHome\Hook\AdminHook;
 use Thelia\Core\Event\Hook\HookRenderEvent;

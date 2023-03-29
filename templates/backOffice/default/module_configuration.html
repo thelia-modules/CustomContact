@@ -16,8 +16,8 @@
       <div class="row">
         <div class="col-md-12">
           <ul id="tabbed-menu" class="nav nav-tabs">
-            <li class="{if $tab eq "list"}active{/if}"><a data-toggle="tab" href="#list">{intl l="List Custom Contact Form" d='customcontactform.bo.default'}</a> </li>
-            <li class="{if $tab eq "create"}active{/if}"><a data-toggle="tab" href="#create">{intl l="Create Custom Contact Form" d='customcontactform.bo.default'}</a> </li>
+            <li class="{if $tab eq "list"}active{/if}"><a data-toggle="tab" href="#list">{intl l="List Custom Contact Form" d='customcontact.bo.default'}</a> </li>
+            <li class="{if $tab eq "create"}active{/if}"><a data-toggle="tab" href="#create">{intl l="Create Custom Contact Form" d='customcontact.bo.default'}</a> </li>
           </ul>
 
           <div class="tab-content">
@@ -25,22 +25,22 @@
               <br>
 
               <div class="title">
-                {intl l="List Custom Contact Form" d='customcontactform.bo.default'}
+                {intl l="List Custom Contact Form" d='customcontact.bo.default'}
               </div>
 
               <table class="table table-condensed table-striped">
                 <thead>
                 <tr>
-                  <th>{intl l='Title' d='customcontactform.bo.default'}</th>
-                  <th>{intl l='Code' d='customcontactform.bo.default'}</th>
-                  <th>{intl l='Field Configuration' d='customcontactform.bo.default'}</th>
-                  <th>{intl l='Receiver Email' d='customcontactform.bo.default'}</th>
+                  <th>{intl l='Title' d='customcontact.bo.default'}</th>
+                  <th>{intl l='Code' d='customcontact.bo.default'}</th>
+                  <th>{intl l='Field Configuration' d='customcontact.bo.default'}</th>
+                  <th>{intl l='Receiver Email' d='customcontact.bo.default'}</th>
                   <th>&nbsp;</th>
                 </tr>
                 </thead>
 
                 <tbody>
-                {loop type="custom_contact_form_loop" name="custom_contact_form"}
+                {loop type="custom_contact_loop" name="custom_contact"}
                   <tr>
                     <td>{$TITLE}</td>
 
@@ -51,7 +51,7 @@
                     <td>{$EMAIL}</td>
 
                     <td>
-                      <a href="{url path="/admin/module/CustomContactForm/delete/$ID"}" class="btn btn-danger" title="{intl l='Delete this custom contact form' d='customcontactform.bo.default'}">
+                      <a href="{url path="/admin/module/CustomContact/delete/$ID"}" class="btn btn-danger" title="{intl l='Delete this custom contact form' d='customcontact.bo.default'}">
                         <i class="glyphicon glyphicon-remove"></i>
                       </a>
                     </td>
@@ -65,14 +65,14 @@
               <br>
 
               <div class="title">
-                {intl l="Create Custom Contact Form" d='customcontactform.bo.default'}
+                {intl l="Create Custom Contact Form" d='customcontact.bo.default'}
               </div>
 
-            {form name="custom_contact_form_form"}
-              <form method="POST" action="{url path="/admin/module/CustomContactForm/create"}" {form_enctype} >
+            {form name="custom_contact_form"}
+              <form method="POST" action="{url path="/admin/module/CustomContact/create"}" {form_enctype} >
 
-                {render_form_field field="success_url" value={url path='/admin/module/CustomContactForm'}}
-                {render_form_field field="error_url" value={url path='/admin/module/CustomContactForm'}}
+                {render_form_field field="success_url" value={url path='/admin/module/CustomContact'}}
+                {render_form_field field="error_url" value={url path='/admin/module/CustomContact'}}
 
                 {form_hidden_fields }
 
@@ -89,7 +89,7 @@
                   {render_form_field field='code'}
                   {render_form_field field='field_configuration'}
                   {render_form_field field='receiver_email'}
-                  <button type="submit" class="btn btn-success" >{intl l="Save Form" d="customcontactform.bo.default"}</button>
+                  <button type="submit" class="btn btn-success" >{intl l="Save Form" d="customcontact.bo.default"}</button>
                 </div>
               </form>
             {/form}

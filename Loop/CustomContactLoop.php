@@ -1,8 +1,8 @@
 <?php
 
-namespace CustomContactForm\Loop;
+namespace CustomContact\Loop;
 
-use CustomContactForm\Model\CustomContactFormQuery;
+use CustomContact\Model\CustomContactQuery;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Thelia\Core\Template\Element\BaseLoop;
 use Thelia\Core\Template\Element\LoopResult;
@@ -11,7 +11,7 @@ use Thelia\Core\Template\Element\PropelSearchLoopInterface;
 use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 
-class CustomContactFormLoop extends BaseLoop implements PropelSearchLoopInterface
+class CustomContactLoop extends BaseLoop implements PropelSearchLoopInterface
 {
 
     public function parseResults(LoopResult $loopResult)
@@ -38,7 +38,7 @@ class CustomContactFormLoop extends BaseLoop implements PropelSearchLoopInterfac
 
     public function buildModelCriteria()
     {
-        $search = CustomContactFormQuery::create();
+        $search = CustomContactQuery::create();
 
         $id = $this->getId();
         if (null !== $id) {

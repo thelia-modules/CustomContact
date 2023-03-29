@@ -1,6 +1,6 @@
 <?php
 
-namespace CustomContactForm;
+namespace CustomContact;
 
 use Propel\Runtime\Connection\ConnectionInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
@@ -12,10 +12,10 @@ use Thelia\Model\Message;
 use Thelia\Model\MessageQuery;
 use Thelia\Module\BaseModule;
 
-class CustomContactForm extends BaseModule
+class CustomContact extends BaseModule
 {
     /** @var string */
-    const DOMAIN_NAME = 'customcontactform';
+    const DOMAIN_NAME = 'customcontact';
 
     /** @var Translator */
     protected $translator;
@@ -30,14 +30,14 @@ class CustomContactForm extends BaseModule
     public function postActivation(ConnectionInterface $con = null): void
     {
         // create new message
-        if (null === MessageQuery::create()->findOneByName('mail_custom_contact_form')) {
+        if (null === MessageQuery::create()->findOneByName('mail_custom_contact')) {
 
             $message = new Message();
             $message
-                ->setName('mail_custom_contact_form')
-                ->setHtmlTemplateFileName('custom_contact_form.html')
+                ->setName('mail_custom_contact')
+                ->setHtmlTemplateFileName('custom_contact.html')
                 ->setHtmlLayoutFileName('')
-                ->setTextTemplateFileName('custom_contact_form.txt')
+                ->setTextTemplateFileName('custom_contact.txt')
                 ->setTextLayoutFileName('')
                 ->setSecured(0);
 
@@ -49,10 +49,10 @@ class CustomContactForm extends BaseModule
                 $message->setLocale($locale);
 
                 $message->setTitle(
-                    $this->trans('Custom Contact Form message', [], $locale)
+                    $this->trans('Custom Contact message', [], $locale)
                 );
                 $message->setSubject(
-                    $this->trans('Contact form to register to {$store_name}', [], $locale)
+                    $this->trans('Contact to {$store_name}', [], $locale)
                 );
             }
 
@@ -66,7 +66,7 @@ class CustomContactForm extends BaseModule
             $this->translator = Translator::getInstance();
         }
 
-        return $this->translator->trans($id, $parameters, CustomContactForm::DOMAIN_NAME, $locale);
+        return $this->translator->trans($id, $parameters, CustomContact::DOMAIN_NAME, $locale);
     }
 
     /**

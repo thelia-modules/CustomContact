@@ -1,10 +1,10 @@
 <?php
 
-namespace CustomContactForm\Controller;
+namespace CustomContact\Controller;
 
-use CustomContactForm\Event\CustomContactFormEvents;
-use CustomContactForm\Model\CustomContactForm;
-use CustomContactForm\Model\CustomContactFormQuery;
+use CustomContact\Event\CustomContactEvents;
+use CustomContact\Model\CustomContact;
+use CustomContact\Model\CustomContactQuery;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Thelia\Controller\Admin\AdminController;
@@ -16,37 +16,37 @@ use Thelia\Mailer\MailerFactory;
 use Thelia\Model\ConfigQuery;
 use Thelia\Tools\URL;
 
-#[Route('/admin/module/CustomContactForm', name: 'custom_contact_form_')]
-class CustomContactFormController extends AdminController
+#[Route('/admin/module/CustomContact', name: 'custom_contact_')]
+class CustomContactController extends AdminController
 {
     #[Route('/create', name: 'create')]
-    public function createCustomContactForm(EventDispatcherInterface $dispatcher, MailerFactory $mailer, ParserContext $parserContext)
+    public function createCustomContact(EventDispatcherInterface $dispatcher, MailerFactory $mailer, ParserContext $parserContext)
     {
-        if (null !== $response = $this->checkAuth(AdminResources::MODULE, 'CustomContactForm', AccessManager::UPDATE)) {
+        if (null !== $response = $this->checkAuth(AdminResources::MODULE, 'CustomContact', AccessManager::UPDATE)) {
             return $response;
         }
 
-        $form = $this->createForm('custom_contact_form_form');
+        $form = $this->createForm('custom_contact_form');
 
         try {
             $data = $this->validateForm($form)->getData();
 
-            $CustomContactForm = new CustomContactForm();
+            $customContact = new CustomContact();
 
-            $CustomContactForm
+            $customContact
                 ->setTitle($data["title"])
                 ->setCode($data["code"])
                 ->setFieldConfiguration($data["field_configuration"])
                 ->setEmail($data["receiver_email"])
                 ->save();
 
-            $event = new CustomContactFormEvents();
-            $dispatcher->dispatch($event, CustomContactFormEvents::CUSTOM_CONTACT_FORM_EVENT);
+            $event = new CustomContactEvents();
+            $dispatcher->dispatch($event, CustomContactEvents::CUSTOM_CONTACT_EVENT);
 
             $storeEmail = ConfigQuery::getStoreEmail();
 
             $mailer->sendEmailMessage(
-                'mail_custom_contact_form',
+                'mail_custom_contact',
                 [$storeEmail => ConfigQuery::getStoreName()],
                 [$data["receiver_email"] => "new customer"],
                 [
@@ -73,14 +73,14 @@ class CustomContactFormController extends AdminController
     }
 
     #[Route('/delete/{id}', name: 'delete')]
-    public function deleteCustomContactForm($id)
+    public function deleteCustomContact($id)
     {
-        if (null !== $response = $this->checkAuth(AdminResources::MODULE, 'CustomContactForm', AccessManager::DELETE)) {
+        if (null !== $response = $this->checkAuth(AdminResources::MODULE, 'CustomContact', AccessManager::DELETE)) {
             return $response;
         }
 
-        CustomContactFormQuery::create()->filterById($id)->delete();
+        CustomContactQuery::create()->filterById($id)->delete();
 
-        return $this->generateRedirect(URL::getInstance()->absoluteUrl('/admin/module/CustomContactForm'));
+        return $this->generateRedirect(URL::getInstance()->absoluteUrl('/admin/module/CustomContact'));
     }
 }

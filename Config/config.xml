@@ -5,27 +5,15 @@
         xsi:schemaLocation="http://thelia.net/schema/dic/config http://thelia.net/schema/dic/config/thelia-1.0.xsd">
 
     <loops>
-        <loop name="custom_contact_form_loop" class="CustomContactForm\Loop\CustomContactFormLoop" />
+        <loop name="custom_contact_loop" class="CustomContact\Loop\CustomContactLoop" />
     </loops>
 
     <forms>
-        <form name="custom_contact_form_form" class="CustomContactForm\Form\CustomContactFormForm" />
+        <form name="custom_contact_form" class="CustomContact\Form\CustomContactForm" />
     </forms>
 
-    <commands>
-        <!--
-        <command class="CustomContactForm\Command\MySuperCommand" />
-        -->
-    </commands>
-
-    <!--
-    <services>
-
-    </services>
-    -->
-
     <hooks>
-        <hook id="custom.contact.form.hook" class="CustomContactForm\Hook\ConfigurationHook">
+        <hook id="custom.contact.hook" class="CustomContact\Hook\ConfigurationHook">
             <tag name="hook.event_listener" event="module.configuration" type="back" method="onModuleConfiguration" />
         </hook>
     </hooks>
