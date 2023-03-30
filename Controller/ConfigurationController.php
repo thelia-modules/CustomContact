@@ -2,10 +2,11 @@
 
 namespace CustomContact\Controller;
 
+use CustomContact\Form\CustomContactForm;
 use CustomContact\Model\CustomContact;
 use CustomContact\Model\CustomContactQuery;
 use Symfony\Component\Routing\Annotation\Route;
-use Thelia\Controller\Admin\AdminController;
+use Thelia\Controller\Admin\BaseAdminController;
 use Thelia\Core\Security\AccessManager;
 use Thelia\Core\Security\Resource\AdminResources;
 use Thelia\Core\Template\ParserContext;
@@ -13,7 +14,7 @@ use Thelia\Form\Exception\FormValidationException;
 use Thelia\Tools\URL;
 
 #[Route('/admin/module/CustomContact', name: 'configuration_custom_contact_')]
-class ConfigurationController extends AdminController
+class ConfigurationController extends BaseAdminController
 {
     #[Route('/create', name: 'create')]
     public function createCustomContact(ParserContext $parserContext)
@@ -22,7 +23,7 @@ class ConfigurationController extends AdminController
             return $response;
         }
 
-        $form = $this->createForm('custom_contact_form');
+        $form = $this->createForm(CustomContactForm::getName());
 
         try {
             $data = $this->validateForm($form)->getData();
@@ -38,16 +39,16 @@ class ConfigurationController extends AdminController
 
             return $this->generateSuccessRedirect($form);
         } catch (FormValidationException $e) {
-            $error_message = $this->createStandardFormValidationErrorMessage($e);
+            $errorMessage = $this->createStandardFormValidationErrorMessage($e);
         } catch (\Exception $e) {
-            $error_message = $e->getMessage();
+            $errorMessage = $e->getMessage();
         }
 
-        $form->setErrorMessage($error_message);
+        $form->setErrorMessage($errorMessage);
 
         $parserContext
             ->addForm($form)
-            ->setGeneralError($error_message);
+            ->setGeneralError($errorMessage);
 
         return $this->generateErrorRedirect($form);
     }

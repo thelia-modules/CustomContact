@@ -1,0 +1,39 @@
+<table class="table table-condensed table-striped">
+    <thead>
+    <tr>
+        <th>{intl l='Title' d='customcontact.bo.default'}</th>
+        <th>{intl l='Code' d='customcontact.bo.default'}</th>
+        <th>{intl l='Field Configuration' d='customcontact.bo.default'}</th>
+        <th>{intl l='Receiver Email' d='customcontact.bo.default'}</th>
+        <th>&nbsp;</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {loop type="custom_contact_loop" name="custom_contact"}
+        <tr>
+            <td>{$TITLE}</td>
+
+            <td>{$CODE}</td>
+
+            <td>
+                <form action="/custom_contact/{$CODE}" method="post">
+                    {loop type="custom_contact_field_loop" name="field_configuration" fields=$FIELD_CONFIGURATION}
+                        <label for="{$LABEL}" class="control-label">{$LABEL}{if $REQUIRED} <span class="required">*</span>{/if}</label>
+                        <input type="text" id="{$LABEL}" name="{$LABEL}" class="form-control">
+                    {/loop}
+                    <input type="submit" class="btn btn-success" value="{intl l='Send Custom Contact' d='customcontact.bo.default'}">
+                </form>
+            </td>
+
+            <td>{$EMAIL}</td>
+
+            <td>
+                <a href="{url path="/admin/module/CustomContact/delete/$ID"}" class="btn btn-danger" title="{intl l='Delete this custom contact form' d='customcontact.bo.default'}">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </a>
+            </td>
+        </tr>
+    {/loop}
+    </tbody>
+</table>
