@@ -8,5 +8,6 @@ return array(
     'List Custom Contact Form' => 'Liste des Formulaires de Contact Personalisés',
     'Receiver Email' => 'Email de Réception',
     'Save Form' => 'Enregister le formulaire',
+    'Send Custom Contact' => 'Envoyer le Contact Personalisé',
     'Title' => 'Titre',
 );

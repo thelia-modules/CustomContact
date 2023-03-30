@@ -2,4 +2,8 @@
 
 {intl l="Welcome to %store_name" store_name={config key="store_name"}}
 
-{intl l="Here is your contact"}
+{intl l="Here is your contact : "}
+
+{foreach from=$response key=k item=data}
+    <p>{$k} : {$data}</p>
+{/foreach}

@@ -107,11 +107,9 @@ class CustomContactController extends AdminController
             [
                 'receiver_email' => $customContactForm->getEmail(),
                 'store_name' => ConfigQuery::getStoreName(),
-                'response' => $requestStack->getCurrentRequest()->request
+                'response' => $requestStack->getCurrentRequest()->request->all()
             ]
         );
-
-        return $this->generateRedirect(URL::getInstance()->absoluteUrl('/account'));
     }
 
     protected function findLocale(Request $request)
