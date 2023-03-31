@@ -5,7 +5,6 @@
         <th>{intl l='Code' d='customcontact.bo.default'}</th>
         <th>{intl l='Field Configuration' d='customcontact.bo.default'}</th>
         <th>{intl l='Receiver Email' d='customcontact.bo.default'}</th>
-        <th>&nbsp;</th>
     </tr>
     </thead>
 
@@ -27,12 +26,6 @@
             </td>
 
             <td>{$EMAIL}</td>
-
-            <td>
-                <a href="{url path="/admin/module/CustomContact/delete/$ID"}" class="btn btn-danger" title="{intl l='Delete this custom contact form' d='customcontact.bo.default'}">
-                    <i class="glyphicon glyphicon-remove"></i>
-                </a>
-            </td>
         </tr>
     {/loop}
     </tbody>

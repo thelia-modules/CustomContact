@@ -19,7 +19,7 @@ class ConfigurationController extends BaseAdminController
     #[Route('/create', name: 'create')]
     public function createCustomContact(ParserContext $parserContext)
     {
-        if (null !== $response = $this->checkAuth(AdminResources::MODULE, 'CustomContact', AccessManager::UPDATE)) {
+        if (null !== $response = $this->checkAuth(AdminResources::MODULE, 'CustomContact', AccessManager::CREATE)) {
             return $response;
         }
 
@@ -36,6 +36,44 @@ class ConfigurationController extends BaseAdminController
                 ->setFieldConfiguration($data["field_configuration"])
                 ->setEmail($data["receiver_email"])
                 ->save();
+
+            return $this->generateSuccessRedirect($form);
+        } catch (FormValidationException $e) {
+            $errorMessage = $this->createStandardFormValidationErrorMessage($e);
+        } catch (\Exception $e) {
+            $errorMessage = $e->getMessage();
+        }
+
+        $form->setErrorMessage($errorMessage);
+
+        $parserContext
+            ->addForm($form)
+            ->setGeneralError($errorMessage);
+
+        return $this->generateErrorRedirect($form);
+    }
+
+    #[Route('/update/{id}', name: 'update', methods: 'POST')]
+    public function updateCustomerContact(ParserContext $parserContext, $id)
+    {
+        if (null !== $response = $this->checkAuth(AdminResources::MODULE, 'CustomContact', AccessManager::UPDATE)) {
+            return $response;
+        }
+
+        $form = $this->createForm(CustomContactForm::getName());
+
+        try {
+            $data = $this->validateForm($form)->getData();
+
+            $customContact = CustomContactQuery::create()->findOneById($id);
+
+            $customContact
+                ->setTitle($data["title"])
+                ->setCode($data["code"])
+                ->setFieldConfiguration($data["field_configuration"])
+                ->setEmail($data["receiver_email"])
+                ->save();
+
 
             return $this->generateSuccessRedirect($form);
         } catch (FormValidationException $e) {

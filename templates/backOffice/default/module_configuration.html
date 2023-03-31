@@ -42,19 +42,49 @@
                 <tbody>
                 {loop type="custom_contact_loop" name="custom_contact"}
                   <tr>
-                    <td>{$TITLE}</td>
+                    {form name="custom_contact_form"}
+                    <form method="POST" action="{url path="/admin/module/CustomContact/update/$ID"}" {form_enctype} >
 
-                    <td>{$CODE}</td>
+                      {render_form_field field="success_url" value={url path='/admin/module/CustomContact'}}
+                      {render_form_field field="error_url" value={url path='/admin/module/CustomContact'}}
 
-                    <td>{$FIELD_CONFIGURATION}</td>
+                      {form_hidden_fields }
 
-                    <td>{$EMAIL}</td>
+                      <td>
+                      {form_field field="title"}
+                         <input type="text" id="" name="custom_contact_form[title]" value="{$TITLE}"/>
+                      {/form_field}
+                      </td>
 
-                    <td>
-                      <a href="{url path="/admin/module/CustomContact/delete/$ID"}" class="btn btn-danger" title="{intl l='Delete this custom contact form' d='customcontact.bo.default'}">
-                        <i class="glyphicon glyphicon-remove"></i>
-                      </a>
-                    </td>
+                      <td>
+                      {form_field field="code"}
+                        <input type="text" name="custom_contact_form[code]" value="{$CODE}"/>
+                      {/form_field}
+                      </td>
+
+                      <td>
+                        {form_field field="field_configuration"}
+                          <textarea name="custom_contact_form[field_configuration]" rows="4" cols="50">{$FIELD_CONFIGURATION}</textarea>
+                        {/form_field}
+                      </td>
+
+                      <td>
+                        {form_field field="receiver_email"}
+                          <input type="email" name="custom_contact_form[receiver_email]" value="{$EMAIL}"/>
+                        {/form_field}
+                      </td>
+
+                      <td>
+                        <button type="submit" class="btn btn-info" >
+                          <span class="glyphicon glyphicon-edit"></span>
+                        </button>
+
+                        <a href="{url path="/admin/module/CustomContact/delete/$ID"}" class="btn btn-danger" title="{intl l='Delete this custom contact form' d='customcontact.bo.default'}">
+                          <i class="glyphicon glyphicon-remove"></i>
+                        </a>
+                      </td>
+                    </form>
+                    {/form}
                   </tr>
                 {/loop}
                 </tbody>
