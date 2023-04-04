@@ -13,6 +13,7 @@ CREATE TABLE `custom_contact`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `code` VARCHAR(255),
+    `success_url` VARCHAR(255),
     `created_at` DATETIME,
     `updated_at` DATETIME,
     PRIMARY KEY (`id`)

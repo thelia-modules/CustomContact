@@ -36,6 +36,7 @@ class ConfigurationController extends BaseAdminController
                 ->setCode($data["code"])
                 ->setFieldConfiguration($data["field_configuration"])
                 ->setEmail($data["receiver_email"])
+                ->setSuccessUrl($data["url_success"])
                 ->save();
 
             return $this->generateSuccessRedirect($form);
@@ -74,6 +75,7 @@ class ConfigurationController extends BaseAdminController
                 ->setCode($data["code"])
                 ->setFieldConfiguration($data["field_configuration"])
                 ->setEmail($data["receiver_email"])
+                ->setSuccessUrl($data["url_success"])
                 ->save();
 
 

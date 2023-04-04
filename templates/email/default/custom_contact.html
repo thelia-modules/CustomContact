@@ -4,6 +4,6 @@
 
 <p>{intl l="Here is your contact : "}</p>
 
-{foreach from=$response key=k item=data}
-    <p>{$k} : {$data}</p>
+{foreach from=$fields key=label item=value}
+    <p>{$label} : {$value}</p>
 {/foreach}

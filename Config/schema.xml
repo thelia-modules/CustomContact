@@ -7,6 +7,7 @@
         <column name="code" size="255" type="VARCHAR"/>
         <column name="field_configuration" type="LONGVARCHAR" />
         <column name="email" size="255" type="VARCHAR" />
+        <column name="success_url" size="255" type="VARCHAR" />
         <behavior name="timestampable" />
         <behavior name="i18n">
             <parameter name="i18n_columns" value="title, field_configuration, email" />

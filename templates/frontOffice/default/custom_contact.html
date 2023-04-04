@@ -1,3 +1,4 @@
+{assign var="lang_locale" value={lang attr="locale"}}
 <table class="table table-condensed table-striped">
     <thead>
     <tr>
@@ -9,7 +10,7 @@
     </thead>
 
     <tbody>
-    {loop type="custom_contact_loop" name="custom_contact"}
+    {loop type="custom_contact_loop" name="custom_contact" lang=$lang_locale is_front=true}
         <tr>
             <td>{$TITLE}</td>
 
@@ -17,7 +18,7 @@
 
             <td>
                 <form action="/custom_contact/{$CODE}" method="post">
-                    {loop type="custom_contact_field_loop" name="field_configuration" fields=$FIELD_CONFIGURATION}
+                    {loop type="custom_contact_field_loop" name="field_configuration" id=$ID}
                         <label for="{$LABEL}" class="control-label">{$LABEL}{if $REQUIRED} <span class="required">*</span>{/if}</label>
                         <input type="text" id="{$LABEL}" name="{$LABEL}" class="form-control">
                     {/loop}

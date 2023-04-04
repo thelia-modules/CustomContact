@@ -17,6 +17,9 @@ class CustomContact extends BaseModule
     /** @var string */
     const DOMAIN_NAME = 'customcontact';
 
+    /** @var string */
+    const MAIL_CUSTOM_CONTACT = 'mail_custom_contact';
+
     /** @var Translator */
     protected $translator;
 
@@ -30,11 +33,11 @@ class CustomContact extends BaseModule
     public function postActivation(ConnectionInterface $con = null): void
     {
         // create new message
-        if (null === MessageQuery::create()->findOneByName('mail_custom_contact')) {
+        if (null === MessageQuery::create()->findOneByName(self::MAIL_CUSTOM_CONTACT)) {
 
             $message = new Message();
             $message
-                ->setName('mail_custom_contact')
+                ->setName(self::MAIL_CUSTOM_CONTACT)
                 ->setHtmlTemplateFileName('custom_contact.html')
                 ->setHtmlLayoutFileName('')
                 ->setTextTemplateFileName('custom_contact.txt')

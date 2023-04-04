@@ -21,6 +21,15 @@ class CustomContactLoop extends BaseLoop implements PropelSearchLoopInterface
         /* @var CustomContact $customFieldForm */
         foreach ($loopResult->getResultDataCollection() as $customFieldForm) {
 
+            if ($this->getLang() !== null)
+            {
+                $lang = LangQuery::create()
+                    ->filterByLocale($this->getLang())
+                    ->findOne();
+
+                $customFieldForm->setLocale($lang->getLocale());
+            }
+
             if ($this->getLangId() !== null)
             {
                 $lang = LangQuery::create()
@@ -31,6 +40,12 @@ class CustomContactLoop extends BaseLoop implements PropelSearchLoopInterface
             }
 
             $loopResultRow = new LoopResultRow($customFieldForm);
+
+            if ($this->getIsFront() === null ||
+                $customFieldForm->getTitle() !== null &&
+                $customFieldForm->getFieldConfiguration() !== null &&
+                $customFieldForm->getEmail() !== null
+            ) {
             $loopResultRow
                 ->set('ID', $customFieldForm->getId())
                 ->set('TITLE', $customFieldForm->getTitle())
@@ -38,11 +53,13 @@ class CustomContactLoop extends BaseLoop implements PropelSearchLoopInterface
                 ->set('FIELD_CONFIGURATION', $customFieldForm->getFieldConfiguration())
                 ->set('LOCALE', $customFieldForm->getLocale())
                 ->set('EMAIL', $customFieldForm->getEmail())
+                ->set('URL_SUCCESS', $customFieldForm->getSuccessUrl())
                 ;
 
             $this->addOutputFields($loopResultRow, $customFieldForm);
 
             $loopResult->addRow($loopResultRow);
+            }
         }
 
         return $loopResult;
@@ -68,7 +85,9 @@ class CustomContactLoop extends BaseLoop implements PropelSearchLoopInterface
     {
         return new ArgumentCollection(
             Argument::createIntListTypeArgument('id'),
-            Argument::createIntListTypeArgument('lang_id')
+            Argument::createAnyListTypeArgument('lang'),
+            Argument::createAnyListTypeArgument('lang_id'),
+            Argument::createAnyListTypeArgument('is_front')
         );
     }
 }

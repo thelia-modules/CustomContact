@@ -2,17 +2,17 @@
 
 namespace CustomContact\Controller;
 
-use CustomContact\Event\CustomContactEvents;
+use CustomContact\Event\CustomContactEvent;
 use CustomContact\Model\CustomContactQuery;
 use OpenApi\Model\Api\ModelFactory;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Thelia\Controller\Front\BaseFrontController;
-use Thelia\Mailer\MailerFactory;
-use Thelia\Model\ConfigQuery;
-use Thelia\Tools\URL;
 
 #[Route('/custom_contact/{code}', name: 'front_custom_contact_')]
 class CustomContactController extends BaseFrontController
@@ -37,29 +37,27 @@ class CustomContactController extends BaseFrontController
     #[Route('', name:'send', methods: 'POST')]
     public function sendCustomContact(
         EventDispatcherInterface $dispatcher,
-        MailerFactory $mailer,
         RequestStack $requestStack,
         $code
     ) {
-        $event = new CustomContactEvents();
-        $dispatcher->dispatch($event, CustomContactEvents::CUSTOM_CONTACT_EVENT);
-
-        $storeEmail = ConfigQuery::getStoreEmail();
-
         $customContactForm = CustomContactQuery::create()
             ->filterByCode($code)
             ->findOne();
 
-        $mailer->sendEmailMessage(
-            'mail_custom_contact',
-            [$storeEmail => ConfigQuery::getStoreName()],
-            [$customContactForm->getEmail() => "receiver_email"],
-            [
-                'receiver_email' => $customContactForm->getEmail(),
-                'store_name' => ConfigQuery::getStoreName(),
-                'response' => $requestStack->getCurrentRequest()->request->all()
-            ]
-        );
+        if (!$customContactForm){
+            throw new NotFoundHttpException();
+        }
+
+        $dispatcher
+            ->dispatch(
+                new CustomContactEvent(
+                    $customContactForm,
+                    $requestStack->getCurrentRequest()->request->all()
+                ),
+                CustomContactEvent::SUBMIT
+            );
+
+        return new RedirectResponse($customContactForm->getSuccessUrl());
     }
 
     protected function findLocale(Request $request)

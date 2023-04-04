@@ -2,56 +2,61 @@
 
 namespace CustomContact\Loop;
 
-use Thelia\Core\Template\Element\ArraySearchLoopInterface;
+use CustomContact\Model\CustomContact;
+use CustomContact\Model\CustomContactI18nQuery;
+use CustomContact\Model\CustomContactQuery;
+use Propel\Runtime\ActiveQuery\Criteria;
 use Thelia\Core\Template\Element\BaseLoop;
 use Thelia\Core\Template\Element\LoopResult;
 use Thelia\Core\Template\Element\LoopResultRow;
+use Thelia\Core\Template\Element\PropelSearchLoopInterface;
 use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 
-class CustomContactFieldLoop extends BaseLoop implements ArraySearchLoopInterface
+class CustomContactFieldLoop extends BaseLoop implements PropelSearchLoopInterface
 {
-    public $countable = true;
-    public $timestampable = false;
-    public $versionable = false;
-
-    public function getArgDefinitions()
-    {
-        return new ArgumentCollection(
-            Argument::createAnyTypeArgument('fields')
-        );
-    }
-
-    public function buildArray()
-    {
-        $items = [];
-
-        $fields = json_decode($this->getFields());
-
-        $index = 0;
-
-        foreach ($fields as $field)
-        {
-            $items[$index][] = $field->label;
-            $items[$index][] = $field->required;
-            $index++;
-        }
-
-        return $items;
-    }
 
     public function parseResults(LoopResult $loopResult)
     {
-        foreach ($loopResult->getResultDataCollection() as $item) {
+        $index = 0;
 
-            $loopResultRow = new LoopResultRow();
+        foreach (json_decode($loopResult->getResultDataCollection()->getData()[0]) as $field) {
 
-            $loopResultRow->set("LABEL", $item[0]);
-            $loopResultRow->set("REQUIRED", $item[1]);
+            $loopResultRow = new LoopResultRow($field);
+
+            $loopResultRow
+                ->set('LABEL', $field->label)
+                ->set('REQUIRED', $field->required)
+            ;
+
+            $this->addOutputFields($loopResultRow, $field);
 
             $loopResult->addRow($loopResultRow);
+            $index++;
         }
 
         return $loopResult;
+    }
+
+    public function buildModelCriteria()
+    {
+        $search = CustomContactI18nQuery::create()
+            ->select(['field_configuration']);
+
+        $id = $this->getId();
+        if (null !== $id) {
+            $search->filterById($id, Criteria::IN);
+        }
+
+        $search->find();
+
+        return $search;
+    }
+
+    protected function getArgDefinitions()
+    {
+        return new ArgumentCollection(
+            Argument::createIntListTypeArgument('id')
+        );
     }
 }
