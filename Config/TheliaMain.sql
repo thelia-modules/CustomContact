@@ -12,10 +12,7 @@ DROP TABLE IF EXISTS `custom_contact`;
 CREATE TABLE `custom_contact`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `title` VARCHAR(255),
     `code` VARCHAR(255),
-    `field_configuration` TEXT,
-    `email` VARCHAR(255),
     `created_at` DATETIME,
     `updated_at` DATETIME,
     PRIMARY KEY (`id`)
@@ -31,6 +28,9 @@ CREATE TABLE `custom_contact_i18n`
 (
     `id` INTEGER NOT NULL,
     `locale` VARCHAR(5) DEFAULT 'en_US' NOT NULL,
+    `title` VARCHAR(255),
+    `field_configuration` TEXT,
+    `email` VARCHAR(255),
     PRIMARY KEY (`id`,`locale`),
     CONSTRAINT `custom_contact_i18n_fk_f71245`
         FOREIGN KEY (`id`)

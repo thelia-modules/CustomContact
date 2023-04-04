@@ -31,6 +31,7 @@ class ConfigurationController extends BaseAdminController
             $customContact = new CustomContact();
 
             $customContact
+                ->setLocale($this->getCurrentEditionLocale())
                 ->setTitle($data["title"])
                 ->setCode($data["code"])
                 ->setFieldConfiguration($data["field_configuration"])
@@ -68,6 +69,7 @@ class ConfigurationController extends BaseAdminController
             $customContact = CustomContactQuery::create()->findOneById($id);
 
             $customContact
+                ->setLocale($this->getCurrentEditionLocale())
                 ->setTitle($data["title"])
                 ->setCode($data["code"])
                 ->setFieldConfiguration($data["field_configuration"])

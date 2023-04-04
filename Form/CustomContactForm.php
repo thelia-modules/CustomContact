@@ -48,9 +48,4 @@ class CustomContactForm extends BaseForm
             )
             ;
     }
-
-    public static function getName()
-    {
-        return 'custom_contact_form';
-    }
 }

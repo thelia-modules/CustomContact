@@ -9,7 +9,7 @@
         <column name="email" size="255" type="VARCHAR" />
         <behavior name="timestampable" />
         <behavior name="i18n">
-            <parameter name="i18n_custom_contact" value="title" />
+            <parameter name="i18n_columns" value="title, field_configuration, email" />
         </behavior>
     </table>
 

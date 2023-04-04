@@ -9,16 +9,6 @@
         <loop name="custom_contact_field_loop" class="CustomContact\Loop\CustomContactFieldLoop" />
     </loops>
 
-    <forms>
-        <form name="custom_contact_form" class="CustomContact\Form\CustomContactForm" />
-    </forms>
-
-    <hooks>
-        <hook id="custom.contact.hook" class="CustomContact\Hook\ConfigurationHook">
-            <tag name="hook.event_listener" event="module.configuration" type="back" method="onModuleConfiguration" />
-        </hook>
-    </hooks>
-
     <!--
     <exports>
 

@@ -34,15 +34,22 @@
                   <th>{intl l='Title' d='customcontact.bo.default'}</th>
                   <th>{intl l='Code' d='customcontact.bo.default'}</th>
                   <th>{intl l='Field Configuration' d='customcontact.bo.default'}</th>
+                  <th>{intl l='Locale' d='customcontact.bo.default'}</th>
                   <th>{intl l='Receiver Email' d='customcontact.bo.default'}</th>
                   <th>&nbsp;</th>
                 </tr>
                 </thead>
 
                 <tbody>
-                {loop type="custom_contact_loop" name="custom_contact"}
+
+                {include
+                file = "includes/inner-form-toolbar.html"
+                hide_submit_buttons = true
+                }
+
+                {loop type="custom_contact_loop" name="custom_contact" lang_id=$edit_language_id}
                   <tr>
-                    {form name="custom_contact_form"}
+                    {form name="customcontact_form_custom_contact_form"}
                     <form method="POST" action="{url path="/admin/module/CustomContact/update/$ID"}" {form_enctype} >
 
                       {render_form_field field="success_url" value={url path='/admin/module/CustomContact'}}
@@ -52,25 +59,29 @@
 
                       <td>
                       {form_field field="title"}
-                         <input type="text" id="" name="custom_contact_form[title]" value="{$TITLE}"/>
+                         <input type="text" name="customcontact_form_custom_contact_form[title]" value="{$TITLE}"/>
                       {/form_field}
                       </td>
 
                       <td>
                       {form_field field="code"}
-                        <input type="text" name="custom_contact_form[code]" value="{$CODE}"/>
+                        <input type="text" name="customcontact_form_custom_contact_form[code]" value="{$CODE}"/>
                       {/form_field}
                       </td>
 
                       <td>
                         {form_field field="field_configuration"}
-                          <textarea name="custom_contact_form[field_configuration]" rows="4" cols="50">{$FIELD_CONFIGURATION}</textarea>
+                          <textarea name="customcontact_form_custom_contact_form[field_configuration]" rows="4" cols="50">{$FIELD_CONFIGURATION}</textarea>
                         {/form_field}
                       </td>
 
                       <td>
+                          {$LOCALE}
+                      </td>
+
+                      <td>
                         {form_field field="receiver_email"}
-                          <input type="email" name="custom_contact_form[receiver_email]" value="{$EMAIL}"/>
+                          <input type="email" name="customcontact_form_custom_contact_form[receiver_email]" value="{$EMAIL}"/>
                         {/form_field}
                       </td>
 
@@ -98,7 +109,7 @@
                 {intl l="Create Custom Contact Form" d='customcontact.bo.default'}
               </div>
 
-            {form name="custom_contact_form"}
+            {form name="customcontact_form_custom_contact_form"}
               <form method="POST" action="{url path="/admin/module/CustomContact/create"}" {form_enctype} >
 
                 {include
