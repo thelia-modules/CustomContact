@@ -29,6 +29,18 @@ class CustomContact extends BaseModule
      *
      * Have fun !
      */
+    public function preActivation(ConnectionInterface $con = null): bool
+    {
+        if (!$this->getConfigValue('is_initialized', false)) {
+            $database = new Database($con);
+
+            $database->insertSql(null, [__DIR__.'/Config/TheliaMain.sql']);
+
+            $this->setConfigValue('is_initialized', true);
+        }
+
+        return true;
+    }
 
     public function postActivation(ConnectionInterface $con = null): void
     {
