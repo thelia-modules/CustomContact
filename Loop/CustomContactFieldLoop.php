@@ -17,14 +17,14 @@ class CustomContactFieldLoop extends BaseI18nLoop implements PropelSearchLoopInt
     {
         foreach ($loopResult->getResultDataCollection()->getData() as $field) {
 
-            $fields_configuration = json_decode($field->getVirtualColumn('i18n_FIELD_CONFIGURATION'));
+            $fieldsConfiguration = json_decode($field->getVirtualColumn('i18n_FIELD_CONFIGURATION'));
 
-            foreach ($fields_configuration as $field_configuration) {
+            foreach ($fieldsConfiguration as $fieldConfiguration) {
                 $loopResultRow = new LoopResultRow($field);
 
                 $loopResultRow
-                    ->set('LABEL', $field_configuration->label)
-                    ->set('REQUIRED', $field_configuration->required)
+                    ->set('LABEL', $fieldConfiguration->label)
+                    ->set('REQUIRED', $fieldConfiguration->required)
                 ;
 
                 $this->addOutputFields($loopResultRow, $field);
