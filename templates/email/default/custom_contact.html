@@ -1,9 +1,23 @@
-{default_translation_domain domain="customcontact.email.default"}
+{extends file="email-layout.tpl"}
 
-<p>{intl l="Welcome to %store_name" store_name={config key="store_name"}}</p>
+{* Do not provide a "Open in browser" link  *}
+{block name="browser"}{/block}
+{* No pre-header *}
+{block name="pre-header"}{/block}
 
-<p>{intl l="Here is your contact : "}</p>
+{* Subject  *}
+{block name="email-subject"}{intl l="Your Contact from %store" store={config key="store_name"}}{/block}
 
-{foreach from=$fields key=label item=value}
-    <p>{$label} : {$value}</p>
-{/foreach}
+{* Title  *}
+{block name="email-title"}{/block}
+
+{* Content  *}
+{block name="email-content"}
+    <p>{intl l="Welcome to %store_name" store_name={config key="store_name"}}</p>
+
+    <p>{intl l="Here is your contact : "}</p>
+
+    {foreach from=$fields key=label item=value}
+        <p>{$label} : {$value}</p>
+    {/foreach}
+{/block}

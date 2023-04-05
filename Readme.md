@@ -27,6 +27,7 @@ Each form have :
 * a code
 * a field configuration (look behind)
 * the receiver email
+* a return url (default : /default_success)
 
 Example basic of field configuration (Json):
 

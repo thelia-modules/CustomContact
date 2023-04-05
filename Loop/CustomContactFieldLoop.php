@@ -2,37 +2,35 @@
 
 namespace CustomContact\Loop;
 
-use CustomContact\Model\CustomContact;
-use CustomContact\Model\CustomContactI18nQuery;
 use CustomContact\Model\CustomContactQuery;
 use Propel\Runtime\ActiveQuery\Criteria;
-use Thelia\Core\Template\Element\BaseLoop;
+use Thelia\Core\Template\Element\BaseI18nLoop;
 use Thelia\Core\Template\Element\LoopResult;
 use Thelia\Core\Template\Element\LoopResultRow;
 use Thelia\Core\Template\Element\PropelSearchLoopInterface;
 use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 
-class CustomContactFieldLoop extends BaseLoop implements PropelSearchLoopInterface
+class CustomContactFieldLoop extends BaseI18nLoop implements PropelSearchLoopInterface
 {
-
     public function parseResults(LoopResult $loopResult)
     {
-        $index = 0;
+        foreach ($loopResult->getResultDataCollection()->getData() as $field) {
 
-        foreach (json_decode($loopResult->getResultDataCollection()->getData()[0]) as $field) {
+            $fields_configuration = json_decode($field->getVirtualColumn('i18n_FIELD_CONFIGURATION'));
 
-            $loopResultRow = new LoopResultRow($field);
+            foreach ($fields_configuration as $field_configuration) {
+                $loopResultRow = new LoopResultRow($field);
 
-            $loopResultRow
-                ->set('LABEL', $field->label)
-                ->set('REQUIRED', $field->required)
-            ;
+                $loopResultRow
+                    ->set('LABEL', $field_configuration->label)
+                    ->set('REQUIRED', $field_configuration->required)
+                ;
 
-            $this->addOutputFields($loopResultRow, $field);
+                $this->addOutputFields($loopResultRow, $field);
 
-            $loopResult->addRow($loopResultRow);
-            $index++;
+                $loopResult->addRow($loopResultRow);
+            }
         }
 
         return $loopResult;
@@ -40,15 +38,24 @@ class CustomContactFieldLoop extends BaseLoop implements PropelSearchLoopInterfa
 
     public function buildModelCriteria()
     {
-        $search = CustomContactI18nQuery::create()
-            ->select(['field_configuration']);
+        $search = CustomContactQuery::create();
 
         $id = $this->getId();
         if (null !== $id) {
             $search->filterById($id, Criteria::IN);
         }
 
-        $search->find();
+        $code = $this->getCode();
+        if (null !== $code) {
+            $search->filterByCode($code, Criteria::IN);
+        }
+
+        $this->configureI18nProcessing(
+            $search,
+            [
+                'FIELD_CONFIGURATION',
+            ]
+        );
 
         return $search;
     }
@@ -56,7 +63,8 @@ class CustomContactFieldLoop extends BaseLoop implements PropelSearchLoopInterfa
     protected function getArgDefinitions()
     {
         return new ArgumentCollection(
-            Argument::createIntListTypeArgument('id')
+            Argument::createIntListTypeArgument('id'),
+            Argument::createAlphaNumStringListTypeArgument('code')
         );
     }
 }

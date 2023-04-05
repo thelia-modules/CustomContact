@@ -5,5 +5,5 @@
 {intl l="Here is your contact : "}
 
 {foreach from=$fields key=label item=value}
-    <p>{$label} : {$value}</p>
+    {$label} : {$value}
 {/foreach}

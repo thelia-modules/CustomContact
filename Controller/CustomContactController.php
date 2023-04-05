@@ -18,7 +18,7 @@ use Thelia\Controller\Front\BaseFrontController;
 class CustomContactController extends BaseFrontController
 {
     #[Route('', name:'view', methods: 'GET')]
-    public function viewAction(RequestStack $requestStack, ModelFactory $modelFactory, $code)
+    public function viewAction(RequestStack $requestStack, $code): Response
     {
         $request = $requestStack->getCurrentRequest();
 
@@ -31,7 +31,11 @@ class CustomContactController extends BaseFrontController
             ->endUse()
             ->find();
 
-        return $this->render('custom_contact', ['custom_contact' => $customContact]);
+        return $this->render('custom_contact',
+            [
+                'custom_contact' => $customContact,
+                'code' => $code
+            ]);
     }
 
     #[Route('', name:'send', methods: 'POST')]
@@ -40,6 +44,10 @@ class CustomContactController extends BaseFrontController
         RequestStack $requestStack,
         $code
     ) {
+        $request = $requestStack->getCurrentRequest();
+
+        $locale = $this->findLocale($request);
+
         $customContactForm = CustomContactQuery::create()
             ->filterByCode($code)
             ->findOne();
@@ -47,6 +55,8 @@ class CustomContactController extends BaseFrontController
         if (!$customContactForm){
             throw new NotFoundHttpException();
         }
+
+        $customContactForm->setLocale($locale);
 
         $dispatcher
             ->dispatch(
@@ -56,8 +66,10 @@ class CustomContactController extends BaseFrontController
                 ),
                 CustomContactEvent::SUBMIT
             );
-
-        return new RedirectResponse($customContactForm->getSuccessUrl());
+        if ($customContactForm->getReturnUrl()){
+            return new RedirectResponse($customContactForm->getReturnUrl());
+        }
+        return new RedirectResponse("/default_success");
     }
 
     protected function findLocale(Request $request)

@@ -1,33 +1,48 @@
+{extends file="layout.tpl"}
+
 {assign var="lang_locale" value={lang attr="locale"}}
-<table class="table table-condensed table-striped">
-    <thead>
-    <tr>
-        <th>{intl l='Title' d='customcontact.bo.default'}</th>
-        <th>{intl l='Code' d='customcontact.bo.default'}</th>
-        <th>{intl l='Field Configuration' d='customcontact.bo.default'}</th>
-        <th>{intl l='Receiver Email' d='customcontact.bo.default'}</th>
-    </tr>
-    </thead>
 
-    <tbody>
-    {loop type="custom_contact_loop" name="custom_contact" lang=$lang_locale is_front=true}
-        <tr>
-            <td>{$TITLE}</td>
+{* Breadcrumb *}
+{block name='no-return-functions' append}
+    {$breadcrumbs = [['title' => {intl l="Custom Contact"}, 'url'=>{url path="/contact_contact"}]]}
+{/block}
 
-            <td>{$CODE}</td>
+{block name="main-content"}
+    {include file="components/smarty/PageHeader/PageHeader.html" TITLE={intl l="Custom Contact"}}
+    <div class="container mx-auto mb-24">
+        <div class="max-w-[714px] mx-auto">
+            {block name="contact-form"}
 
-            <td>
-                <form action="/custom_contact/{$CODE}" method="post">
-                    {loop type="custom_contact_field_loop" name="field_configuration" id=$ID}
-                        <label for="{$LABEL}" class="control-label">{$LABEL}{if $REQUIRED} <span class="required">*</span>{/if}</label>
-                        <input type="text" id="{$LABEL}" name="{$LABEL}" class="form-control">
-                    {/loop}
-                    <input type="submit" class="btn btn-success" value="{intl l='Send Custom Contact' d='customcontact.bo.default'}">
-                </form>
-            </td>
+            {loop type="custom_contact_loop" name="custom_contact" lang=$lang_locale code=$code|default:null}
+            <fieldset id="contact-info">
+                <div class="grid gap-4">
+                    <div>{intl l='Title' d='customcontact.bo.default'} : {$TITLE}</div>
 
-            <td>{$EMAIL}</td>
-        </tr>
-    {/loop}
-    </tbody>
-</table>
+                    <div>{intl l='Code' d='customcontact.bo.default'} : {$CODE}</div>
+
+                    <div>{intl l='Email' d='customcontact.bo.default'} : {$EMAIL}</div>
+
+                    <div class="grid gap-4"> {intl l='Field Configuration' d='customcontact.bo.default'} :
+                        <form action="/custom_contact/{$CODE}" method="post">
+                            <div class="grid gap-4">
+                                {loop type="custom_contact_field_loop" name="field_configuration" id=$ID code=$CODE}
+                                    <label for="{$LABEL}" class="Input">
+                                        <div class="Input-label">
+                                            {$LABEL}{if $REQUIRED} <span class="required">*</span>{/if} :
+                                        </div>
+                                        <input type="text" id="{$LABEL}" name="{$LABEL}" class="Input-field text-primary ">
+                                    </label>
+                                {/loop}
+                                <div>
+                                    <input type="submit" class="Button" value="{intl l='Send Custom Contact' d='customcontact.bo.default'}">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            {/loop}
+            </fieldset>
+            {/block}
+        </div>
+    </div>
+{/block}

@@ -6,5 +6,6 @@ return array(
     'code' => 'code',
     'field_configuration' => 'configuration de champs',
     'receiver_email' => 'email de reception',
+    'return_url' => 'url de retour',
     'title' => 'titre',
 );

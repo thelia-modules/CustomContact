@@ -47,11 +47,11 @@ class CustomContactForm extends BaseForm
                 ]
             )
             ->add(
-                'url_success',
+                'return_url',
                 TextType::class,
                 options: [
-                    'required' => true,
-                    'label' => Translator::getInstance()->trans('success_url', [], CustomContact::DOMAIN_NAME)
+                    'required' => false,
+                    'label' => Translator::getInstance()->trans('return_url', [], CustomContact::DOMAIN_NAME)
                 ]
             )
             ;

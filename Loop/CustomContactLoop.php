@@ -41,11 +41,6 @@ class CustomContactLoop extends BaseLoop implements PropelSearchLoopInterface
 
             $loopResultRow = new LoopResultRow($customFieldForm);
 
-            if ($this->getIsFront() === null ||
-                $customFieldForm->getTitle() !== null &&
-                $customFieldForm->getFieldConfiguration() !== null &&
-                $customFieldForm->getEmail() !== null
-            ) {
             $loopResultRow
                 ->set('ID', $customFieldForm->getId())
                 ->set('TITLE', $customFieldForm->getTitle())
@@ -53,13 +48,12 @@ class CustomContactLoop extends BaseLoop implements PropelSearchLoopInterface
                 ->set('FIELD_CONFIGURATION', $customFieldForm->getFieldConfiguration())
                 ->set('LOCALE', $customFieldForm->getLocale())
                 ->set('EMAIL', $customFieldForm->getEmail())
-                ->set('URL_SUCCESS', $customFieldForm->getSuccessUrl())
+                ->set('RETURN_URL', $customFieldForm->getReturnUrl())
                 ;
 
             $this->addOutputFields($loopResultRow, $customFieldForm);
 
             $loopResult->addRow($loopResultRow);
-            }
         }
 
         return $loopResult;
@@ -72,6 +66,11 @@ class CustomContactLoop extends BaseLoop implements PropelSearchLoopInterface
         $id = $this->getId();
         if (null !== $id) {
             $search->filterById($id, Criteria::IN);
+        }
+
+        $code = $this->getCode();
+        if (null !== $code) {
+            $search->filterByCode($code, Criteria::IN);
         }
 
         $search
@@ -87,7 +86,7 @@ class CustomContactLoop extends BaseLoop implements PropelSearchLoopInterface
             Argument::createIntListTypeArgument('id'),
             Argument::createAnyListTypeArgument('lang'),
             Argument::createAnyListTypeArgument('lang_id'),
-            Argument::createAnyListTypeArgument('is_front')
+            Argument::createAlphaNumStringListTypeArgument('code')
         );
     }
 }

@@ -36,7 +36,7 @@
                   <th>{intl l='Field Configuration' d='customcontact.bo.default'}</th>
                   <th>{intl l='Locale' d='customcontact.bo.default'}</th>
                   <th>{intl l='Receiver Email' d='customcontact.bo.default'}</th>
-                  <th>{intl l='Success_URL' d='customcontact.bo.default'}</th>
+                  <th>{intl l='Return url' d='customcontact.bo.default'}</th>
                   <th>&nbsp;</th>
                 </tr>
                 </thead>
@@ -87,8 +87,8 @@
                       </td>
 
                       <td>
-                        {form_field field="url_success"}
-                          <input type="text" name="customcontact_form_custom_contact_form[url_success]" value="{$URL_SUCCESS}"/>
+                        {form_field field="return_url"}
+                          <input type="text" name="customcontact_form_custom_contact_form[return_url]" value="{$RETURN_URL}"/>
                         {/form_field}
                       </td>
 
@@ -145,7 +145,7 @@
                   {render_form_field field='code'}
                   {render_form_field field='field_configuration'}
                   {render_form_field field='receiver_email'}
-                  {render_form_field field='url_success'}
+                  {render_form_field field='return_url'}
                   <button type="submit" class="btn btn-success" >{intl l="Save Form" d="customcontact.bo.default"}</button>
                 </div>
               </form>
