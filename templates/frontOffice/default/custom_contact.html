@@ -8,41 +8,35 @@
 {/block}
 
 {block name="main-content"}
-    {include file="components/smarty/PageHeader/PageHeader.html" TITLE={intl l="Custom Contact"}}
-    <div class="container mx-auto mb-24">
-        <div class="max-w-[714px] mx-auto">
-            {block name="contact-form"}
+    {loop type="custom_contact_loop" name="custom_contact" lang=$lang_locale code=$code|default:null}
 
-            {loop type="custom_contact_loop" name="custom_contact" lang=$lang_locale code=$code|default:null}
-            <fieldset id="contact-info">
-                <div class="grid gap-4">
-                    <div>{intl l='Title' d='customcontact.bo.default'} : {$TITLE}</div>
-
-                    <div>{intl l='Code' d='customcontact.bo.default'} : {$CODE}</div>
-
-                    <div>{intl l='Email' d='customcontact.bo.default'} : {$EMAIL}</div>
-
-                    <div class="grid gap-4"> {intl l='Field Configuration' d='customcontact.bo.default'} :
-                        <form action="/custom_contact/{$CODE}" method="post">
-                            <div class="grid gap-4">
-                                {loop type="custom_contact_field_loop" name="field_configuration" id=$ID code=$CODE}
-                                    <label for="{$LABEL}" class="Input">
-                                        <div class="Input-label">
-                                            {$LABEL}{if $REQUIRED} <span class="required">*</span>{/if} :
-                                        </div>
-                                        <input type="text" id="{$LABEL}" name="{$LABEL}" class="Input-field text-primary ">
-                                    </label>
-                                {/loop}
-                                <div>
-                                    <input type="submit" class="Button" value="{intl l='Send Custom Contact' d='customcontact.bo.default'}">
+        {include file="components/smarty/PageHeader/PageHeader.html" TITLE={$TITLE}}
+        <br>
+        <div class="container mx-auto mb-24">
+            <div class="max-w-[714px] mx-auto">
+                <fieldset id="contact-info">
+                    <div class="grid gap-4">
+                        <div class="grid gap-4">
+                            <form action="/custom_contact/{$CODE}" method="post">
+                                <div class="grid gap-4">
+                                    {loop type="custom_contact_field_loop" name="field_configuration" id=$ID code=$CODE}
+                                        <label for="{$LABEL}" class="Input">
+                                            <div class="Input-label">
+                                                {$LABEL}{if $REQUIRED} <span class="required">*</span>{/if} :
+                                            </div>
+                                            <input type="text" id="{$LABEL}" name="{$LABEL}" class="Input-field text-primary ">
+                                        </label>
+                                    {/loop}
+                                    <div>
+                                        <input type="submit" class="Button" value="{intl l='Validate' d='customcontact.fo.default'}">
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            {/loop}
-            </fieldset>
-            {/block}
+                </fieldset>
+            </div>
         </div>
-    </div>
+    {/loop}
+
 {/block}

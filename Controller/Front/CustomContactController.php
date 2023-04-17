@@ -1,10 +1,9 @@
 <?php
 
-namespace CustomContact\Controller;
+namespace CustomContact\Controller\Front;
 
 use CustomContact\Event\CustomContactEvent;
 use CustomContact\Model\CustomContactQuery;
-use OpenApi\Model\Api\ModelFactory;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

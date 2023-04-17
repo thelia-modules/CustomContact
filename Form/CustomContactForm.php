@@ -19,7 +19,7 @@ class CustomContactForm extends BaseForm
                 TextType::class,
                 options: [
                     'required' => true,
-                    'label' => Translator::getInstance()->trans('title', [], CustomContact::DOMAIN_NAME)
+                    'label' => Translator::getInstance()->trans('Title', [], CustomContact::DOMAIN_NAME)
                 ]
             )
             ->add(
@@ -27,7 +27,7 @@ class CustomContactForm extends BaseForm
                 TextType::class,
                 options: [
                     'required' => true,
-                    'label' => Translator::getInstance()->trans('code', [], CustomContact::DOMAIN_NAME)
+                    'label' => Translator::getInstance()->trans('Code', [], CustomContact::DOMAIN_NAME)
                 ]
             )
             ->add(
@@ -35,7 +35,7 @@ class CustomContactForm extends BaseForm
                 TextareaType::class,
                 options: [
                     'required' => true,
-                    'label' => Translator::getInstance()->trans('field_configuration', [], CustomContact::DOMAIN_NAME)
+                    'label' => Translator::getInstance()->trans('Field configuration', [], CustomContact::DOMAIN_NAME)
                 ]
             )
             ->add(
@@ -43,7 +43,7 @@ class CustomContactForm extends BaseForm
                 TextType::class,
                 options: [
                     'required' => true,
-                    'label' => Translator::getInstance()->trans('receiver_email', [], CustomContact::DOMAIN_NAME)
+                    'label' => Translator::getInstance()->trans('Receiver email', [], CustomContact::DOMAIN_NAME)
                 ]
             )
             ->add(
@@ -51,7 +51,7 @@ class CustomContactForm extends BaseForm
                 TextType::class,
                 options: [
                     'required' => false,
-                    'label' => Translator::getInstance()->trans('return_url', [], CustomContact::DOMAIN_NAME)
+                    'label' => Translator::getInstance()->trans('Return url', [], CustomContact::DOMAIN_NAME)
                 ]
             )
             ;

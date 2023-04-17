@@ -1,6 +1,6 @@
 <?php
 
-namespace CustomContact\Controller;
+namespace CustomContact\Controller\Admin;
 
 use CustomContact\Form\CustomContactForm;
 use CustomContact\Model\CustomContact;
