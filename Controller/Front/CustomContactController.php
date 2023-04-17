@@ -11,13 +11,14 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Requirement\Requirement;
 use Thelia\Controller\Front\BaseFrontController;
 
-#[Route('/custom_contact/{code}', name: 'front_custom_contact_')]
+#[Route('/custom_contact/{code}', name: 'front_custom_contact_', requirements: ['code' => Requirement::ASCII_SLUG])]
 class CustomContactController extends BaseFrontController
 {
     #[Route('', name:'view', methods: 'GET')]
-    public function viewAction(RequestStack $requestStack, $code): Response
+    public function viewAction(RequestStack $requestStack, string $code): Response
     {
         $request = $requestStack->getCurrentRequest();
 
@@ -30,7 +31,7 @@ class CustomContactController extends BaseFrontController
             ->endUse()
             ->find();
 
-        return $this->render('custom_contact',
+        return $this->render('custom_contact/form',
             [
                 'custom_contact' => $customContact,
                 'code' => $code
@@ -41,7 +42,7 @@ class CustomContactController extends BaseFrontController
     public function sendCustomContact(
         EventDispatcherInterface $dispatcher,
         RequestStack $requestStack,
-        $code
+        string $code
     ) {
         $request = $requestStack->getCurrentRequest();
 
@@ -68,7 +69,17 @@ class CustomContactController extends BaseFrontController
         if ($customContactForm->getReturnUrl()){
             return new RedirectResponse($customContactForm->getReturnUrl());
         }
-        return new RedirectResponse("/default_success");
+        return new RedirectResponse("/custom_contact/".$code."/success");
+    }
+
+    #[Route('/success', name:'success', methods: 'GET')]
+    public function success(string $code): Response
+    {
+        return $this->render('custom_contact/success',
+            [
+                'code' => $code
+            ]
+        );
     }
 
     protected function findLocale(Request $request)
