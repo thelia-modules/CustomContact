@@ -24,7 +24,26 @@
                                             <div class="Input-label">
                                                 {$LABEL}{if $REQUIRED} <span class="required">*</span>{/if} :
                                             </div>
-                                            <input type="text" id="{$LABEL}" name="{$LABEL}" class="Input-field text-primary ">
+                                            {if $TYPE !== "textarea"}
+                                                <input
+                                                    type="{$TYPE|default:'text'}"
+                                                    id="{$LABEL}"
+                                                    name="{$NAME|default:$LABEL}"
+                                                    placeholder="{$PLACEHOLDER|default:null}"
+                                                    class="Input-field text-primary "
+                                                    {if $REQUIRED}required{/if}
+                                                >
+                                            {else}
+                                                <textarea
+                                                    name="{$NAME|default:$LABEL}"
+                                                    id="{$LABEL}"
+                                                    rows="{$ROWS|default:10}"
+                                                    placeholder="{$PLACEHOLDER|default:null}"
+                                                    class="Input-field text-primary "
+                                                    {if $REQUIRED}required{/if}
+                                                >
+                                                </textarea>
+                                            {/if}
                                         </label>
                                     {/loop}
                                     <div>
