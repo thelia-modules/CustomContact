@@ -22,10 +22,9 @@ class CustomContactFieldLoop extends BaseI18nLoop implements PropelSearchLoopInt
             foreach ($fieldsConfiguration as $fieldConfiguration) {
                 $loopResultRow = new LoopResultRow($field);
 
-                $loopResultRow
-                    ->set('LABEL', $fieldConfiguration->label)
-                    ->set('REQUIRED', $fieldConfiguration->required)
-                ;
+                foreach ($fieldConfiguration as $key => $value) {
+                    $loopResultRow->set(str_replace(' ', '_', strtoupper($key)), $value);
+                }
 
                 $this->addOutputFields($loopResultRow, $field);
 
