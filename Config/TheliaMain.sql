@@ -32,6 +32,7 @@ CREATE TABLE `custom_contact_i18n`
     `title` VARCHAR(255),
     `field_configuration` TEXT,
     `email` VARCHAR(255),
+    `success_message` TEXT(255),
     PRIMARY KEY (`id`,`locale`),
     CONSTRAINT `custom_contact_i18n_fk_f71245`
         FOREIGN KEY (`id`)

@@ -54,6 +54,14 @@ class CustomContactForm extends BaseForm
                     'label' => Translator::getInstance()->trans('Return url', [], CustomContact::DOMAIN_NAME)
                 ]
             )
+            ->add(
+                'success_message',
+                TextType::class,
+                options: [
+                    'required' => false,
+                    'label' => Translator::getInstance()->trans('Success message', [], CustomContact::DOMAIN_NAME)
+                ]
+            )
             ;
     }
 }

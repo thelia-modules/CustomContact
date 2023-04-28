@@ -49,6 +49,7 @@ class CustomContactLoop extends BaseLoop implements PropelSearchLoopInterface
                 ->set('LOCALE', $customFieldForm->getLocale())
                 ->set('EMAIL', $customFieldForm->getEmail())
                 ->set('RETURN_URL', $customFieldForm->getReturnUrl())
+                ->set('SUCCESS_MESSAGE', $customFieldForm->getSuccessMessage())
                 ;
 
             $this->addOutputFields($loopResultRow, $customFieldForm);

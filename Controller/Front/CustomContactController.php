@@ -75,9 +75,14 @@ class CustomContactController extends BaseFrontController
     #[Route('/success', name:'success', methods: 'GET')]
     public function success(string $code): Response
     {
+        $customContactForm = CustomContactQuery::create()
+            ->filterByCode($code)
+            ->findOne();
+
         return $this->render('custom_contact/success',
             [
-                'code' => $code
+                'code' => $code,
+                'successMessage' => $customContactForm->getSuccessMessage()
             ]
         );
     }

@@ -11,6 +11,7 @@ use Thelia\Core\Security\AccessManager;
 use Thelia\Core\Security\Resource\AdminResources;
 use Thelia\Core\Template\ParserContext;
 use Thelia\Form\Exception\FormValidationException;
+use Thelia\Model\ConfigQuery;
 use Thelia\Tools\URL;
 
 #[Route('/admin/module/CustomContact', name: 'configuration_custom_contact_')]
@@ -37,6 +38,7 @@ class ConfigurationController extends BaseAdminController
                 ->setFieldConfiguration($data["field_configuration"])
                 ->setEmail($data["receiver_email"])
                 ->setReturnUrl($data["return_url"])
+                ->setSuccessMessage($data["success_message"])
                 ->save();
 
             return $this->generateSuccessRedirect($form);
@@ -76,6 +78,7 @@ class ConfigurationController extends BaseAdminController
                 ->setFieldConfiguration($data["field_configuration"])
                 ->setEmail($data["receiver_email"])
                 ->setReturnUrl($data["return_url"])
+                ->setSuccessMessage($data["success_message"])
                 ->save();
 
 

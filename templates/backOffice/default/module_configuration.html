@@ -34,9 +34,9 @@
                   <th>{intl l='Title' d='customcontact.bo.default'}</th>
                   <th>{intl l='Code' d='customcontact.bo.default'}</th>
                   <th>{intl l='Field Configuration' d='customcontact.bo.default'}</th>
-                  <th>{intl l='Locale' d='customcontact.bo.default'}</th>
                   <th>{intl l='Receiver Email' d='customcontact.bo.default'}</th>
                   <th>{intl l='Return url' d='customcontact.bo.default'}</th>
+                  <th>{intl l='Success message' d='customcontact.bo.default'}</th>
                   <th>&nbsp;</th>
                 </tr>
                 </thead>
@@ -60,41 +60,43 @@
 
                       <td>
                       {form_field field="title"}
-                         <input type="text" name="customcontact_form_custom_contact_form[title]" value="{$TITLE}"/>
+                         <input type="text" name="{$name}" value="{$TITLE}"/>
                       {/form_field}
                       </td>
 
                       <td>
                       {form_field field="code"}
-                        <input type="text" name="customcontact_form_custom_contact_form[code]" value="{$CODE}"/>
+                        <input type="text" name="{$name}" value="{$CODE}"/>
                       {/form_field}
                       </td>
 
                       <td>
                         {form_field field="field_configuration"}
-                          <textarea name="customcontact_form_custom_contact_form[field_configuration]" rows="4" cols="50">{$FIELD_CONFIGURATION}</textarea>
+                          <textarea name="{$name}">{$FIELD_CONFIGURATION}</textarea>
                         {/form_field}
                       </td>
 
                       <td>
-                          {$LOCALE}
-                      </td>
-
-                      <td>
                         {form_field field="receiver_email"}
-                          <input type="email" name="customcontact_form_custom_contact_form[receiver_email]" value="{$EMAIL}"/>
+                          <input type="email" name="{$name}" value="{$EMAIL}"/>
                         {/form_field}
                       </td>
 
                       <td>
                         {form_field field="return_url"}
-                          <input type="text" name="customcontact_form_custom_contact_form[return_url]" value="{$RETURN_URL}"/>
+                          <input type="text" name="{$name}" value="{$RETURN_URL}"/>
                         {/form_field}
                       </td>
 
                       <td>
-                        <button type="submit" class="btn btn-info" >
-                          <span class="glyphicon glyphicon-edit"></span>
+                        {form_field field="success_message"}
+                          <textarea name="{$name}" rows="4" cols="25">{$SUCCESS_MESSAGE}</textarea>
+                        {/form_field}
+                      </td>
+
+                      <td>
+                        <button type="submit" class="btn btn-success" >
+                          <span class="glyphicon glyphicon-floppy-disk"></span>
                         </button>
 
                         <a href="{url path="/admin/module/CustomContact/delete/$ID"}" class="btn btn-danger" title="{intl l='Delete this custom contact form' d='customcontact.bo.default'}">
@@ -146,6 +148,7 @@
                   {render_form_field field='field_configuration'}
                   {render_form_field field='receiver_email'}
                   {render_form_field field='return_url'}
+                  {render_form_field field='success_message'}
                   <button type="submit" class="btn btn-success" >{intl l="Save Form" d="customcontact.bo.default"}</button>
                 </div>
               </form>
