@@ -1,0 +1,195 @@
+{extends file="admin-layout.tpl"}
+
+{block name="after-admin-css"}
+    <link rel="stylesheet" href="{stylesheet file='assets/js/image-picker/image-picker.css'}">
+    <script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js"></script>
+{/block}
+
+{block name="no-return-functions"}
+    {$admin_current_location = 'modules'}
+{/block}
+
+
+{block name="page-title"}{intl l="Form configuration"}{/block}
+
+
+{block name="main-content"}
+    {$id = null}
+    {if null !== $customContact}
+        {$id = $customContact->getId()}
+    {/if}
+    <ul class="breadcrumb">
+        <li><a href="{url path='admin/home'}">{intl l="Home" }</a></li>
+        <li><a href="{url path='admin/modules'}">{intl l="Modules"}</a></li>
+        <li><a href="{url path='admin/module/CustomContact'}">{intl l="CustomContact List" d='customcontact.bo.default'}</a></li>
+        <li>{$pageTitle}</li>
+    </ul>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="general-block-decorator">
+
+            <div class="row">
+                <div class="col-md-12 title title-without-tabs">
+                    {$pageTitle}
+                </div>
+            </div>
+
+            <div class="form-container">
+                <div class="row inner-toolbar"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        {form name="customcontact_form_custom_contact_form"}
+                            <form method="POST"
+                                  action="{url path="/admin/custom_contact/%id" id=$id}" {form_enctype} >
+                                {include file = "includes/inner-form-toolbar.html"
+                                    page_url   = "{url path="/admin/custom_contact/%id" id=$id}"
+                                    close_url   = "{url path="/admin/module/CustomContact"}"
+                                    hide_save_and_close_button = true
+                                    hide_submit_buttons = true
+                                }
+                                <div class="row">
+                                    <div class="col-sm-8 col-sm-offset-2">
+                                        {render_form_field field="error_url" value={url path='/admin/custom_contact/%id' id=$id}}
+                                        {render_form_field field="success_url" value={url path='/admin/module/CustomContact'}}
+
+                                        {form_hidden_fields }
+
+                                        {form_field field="title"}
+                                            <div class="form-group {if $error}has-error{/if}">
+                                                <label for="{$label_attr.for}" class="control-label">{$label} : </label>
+                                                <input type="text" id="{$label_attr.for}" name="{$name}"
+                                                       class="form-control" value="{$customContact->getTitle()|default:null}">
+                                            </div>
+                                        {/form_field}
+
+                                        {form_field field="code"}
+                                            <div class="form-group {if $error}has-error{/if}">
+                                                <label for="{$label_attr.for}" class="control-label">{$label} : </label>
+                                                <input type="text" id="{$label_attr.for}" name="{$name}"
+                                                       class="form-control" value="{$customContact->getCode()|default:null}">
+                                            </div>
+                                        {/form_field}
+
+                                        {form_field field="receiver_email"}
+                                            <div class="form-group {if $error}has-error{/if}">
+                                                <label for="{$label_attr.for}" class="control-label">{$label} : </label>
+                                                <input type="text" id="{$label_attr.for}" name="{$name}"
+                                                       class="form-control" value="{$customContact->getEmail()|default:null}">
+                                            </div>
+                                        {/form_field}
+
+                                        {form_field field="return_url"}
+                                            <div class="form-group {if $error}has-error{/if}">
+                                                <label for="{$label_attr.for}" class="control-label">{$label} : </label>
+                                                <input type="text" id="{$label_attr.for}" name="{$name}"
+                                                       class="form-control" value="{$customContact->getReturnUrl()|default:null}">
+                                            </div>
+                                        {/form_field}
+
+                                        {form_field field="success_message"}
+                                            <div class="form-group {if $error}has-error{/if}">
+                                                <label for="{$label_attr.for}" class="control-label">{$label} : </label>
+                                                <br>
+                                                <textarea id="{$label_attr.for}" name="{$name}" rows="4"
+                                                          cols="50" class="form-control">{$customContact->getSuccessMessage()}</textarea>
+                                            </div>
+                                        {/form_field}
+
+                                        {form_field field="field_configuration"}
+                                            <input id="json_field" type="hidden" name="{$name}">
+                                        {/form_field}
+
+                                        <hr>
+                                        <br>
+                                        <div id="editor_holder">
+                                        </div>
+                                        <hr>
+                                        <br>
+
+                                        <input type="submit" class="form-submit-button btn btn-block btn-success"
+                                               value="{intl l="Save"}">
+                                    </div>
+                                </div>
+                            </form>
+                        {/form}
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+{/block}
+
+{block name="javascript-last-call"}
+    <script type="text/javascript">
+        var customContactLabel = "{intl l="Field configuration" d='customcontact.bo.default'}";
+        var fieldLabel = "{intl l="Field" d='customcontact.bo.default'}";
+
+        var textInputLabel = "{intl l="Simple field" d='customcontact.bo.default'}";
+        var textAreaLabel = "{intl l="Long text field" d='customcontact.bo.default'}";
+
+        var startVal = JSON.parse('{$customContact->getFieldConfiguration()|default: "[]"|strip nofilter}');
+
+        {literal}
+        const element = document.getElementById('editor_holder');
+
+        const editor = new JSONEditor(
+            document.getElementById('editor_holder'),
+            {
+                theme: "bootstrap4",
+                iconlib: "bootstrap",
+                disable_array_delete_last_row: true,
+                prompt_before_delete: false,
+                disable_collapse: true,
+                disable_edit_json: true,
+                disable_properties: true,
+                disable_array_delete_all_rows: true,
+                compact: true,
+                startval: startVal,
+                schema: {
+                    "type": "array",
+                    "default": [],
+                    "title": customContactLabel,
+                    "items": {
+                        "type": "object",
+                        "title": fieldLabel,
+                        "required": [
+                            "label",
+                            "required"
+                        ],
+                        "properties": {
+                            "label": {
+                                "type": "string",
+                                "title": "Label"
+                            },
+                            "required": {
+                                "type": "boolean",
+                                "title": "Is field required",
+                                "examples": [
+                                    false,
+                                    true
+                                ]
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": ["text","textarea"],
+                                "options": {
+                                    "enum_titles" : [textInputLabel, textAreaLabel]
+                                },
+                                "title": "Type"
+                            },
+                            "placeholder": {
+                                "type": "string",
+                                "title": "Placeholder"
+                            }
+                        }
+                    }
+                }
+            }
+        );
+        editor.on('change', () => {
+            document.querySelector('#json_field').value = JSON.stringify(editor.getValue());
+        });
+        {/literal}
+    </script>
+{/block}

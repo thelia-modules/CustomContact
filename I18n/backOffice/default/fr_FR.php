@@ -1,14 +1,20 @@
 <?php
 
 return array(
+    'Actions' => 'Actions',
     'Code' => 'Code',
-    'Create Custom Contact Form' => 'Créer un Formulaire de Contact Personnalisé',
+    'CustomContact List' => 'CustomContact Liste',
     'Delete this custom contact form' => 'Supprimer ce formulaire',
-    'Field Configuration' => 'Configuration de Champs',
+    'Field' => 'Champ',
+    'Field configuration' => 'Configuration des champs',
+    'Form configuration' => 'Configuration formulaire',
+    'Home' => 'Accueil',
+    'Id' => 'Id',
     'List Custom Contact Form' => 'Liste des Formulaires de Contact Personnalisés',
-    'Locale' => 'Locale',
+    'Long text field' => 'Champ texte long',
+    'Modules' => 'Modules',
     'Receiver Email' => 'Email de Réception',
-    'Return url' => 'URL de retour',
-    'Save Form' => 'Enregister le formulaire',
+    'Save' => 'Enregistrer',
+    'Simple field' => 'Champ texte simple',
     'Title' => 'Titre',
 );

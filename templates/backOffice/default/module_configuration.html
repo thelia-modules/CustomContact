@@ -1,162 +1,85 @@
 {if isset($smarty.get.tab)}
-  {$tab=$smarty.get.tab}
+    {$tab=$smarty.get.tab}
 {else}
-  {$tab='list'}
+    {$tab='list'}
 {/if}
 <style>
-  input[type=number]
-  {
-    min-width:100px;
-  }
+    input[type=number] {
+        min-width: 100px;
+    }
 </style>
 
 <div class="row">
-  <div class="col-md-12">
-    <div class="general-block-decorator">
-      <div class="row">
-        <div class="col-md-12">
-          <ul id="tabbed-menu" class="nav nav-tabs">
-            <li class="{if $tab eq "list"}active{/if}"><a data-toggle="tab" href="#list">{intl l="List Custom Contact Form" d='customcontact.bo.default'}</a> </li>
-            <li class="{if $tab eq "create"}active{/if}"><a data-toggle="tab" href="#create">{intl l="Create Custom Contact Form" d='customcontact.bo.default'}</a> </li>
-          </ul>
+    <div class="col-md-12">
+        <div class="general-block-decorator">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="tab-content">
+                        <div class="form-container">
+                            <br>
 
-          <div class="tab-content">
-            <div id="list" class="tab-pane {if $tab eq "list"}active{/if} form-container">
-              <br>
+                            <div class="title">
+                                {intl l="List Custom Contact Form" d='customcontact.bo.default'}
+                            </div>
 
-              <div class="title">
-                {intl l="List Custom Contact Form" d='customcontact.bo.default'}
-              </div>
+                            <table class="table table-condensed table-striped">
+                                <caption>
+                                    <a title="Ajouter un nouveau dossier" href="{url path="/admin/custom_contact"}" class="btn btn-success btn-responsive action-btn"><i class="glyphicon glyphicon-plus-sign"></i></a>
+                                </caption>
+                                <thead>
+                                <tr>
+                                    <th>{intl l='Id' d='customcontact.bo.default'}</th>
+                                    <th>{intl l='Title' d='customcontact.bo.default'}</th>
+                                    <th>{intl l='Code' d='customcontact.bo.default'}</th>
+                                    <th>{intl l='Receiver Email' d='customcontact.bo.default'}</th>
+                                    <th>{intl l='Actions' d='customcontact.bo.default'}</th>
+                                </tr>
+                                </thead>
 
-              <table class="table table-condensed table-striped">
-                <thead>
-                <tr>
-                  <th>{intl l='Title' d='customcontact.bo.default'}</th>
-                  <th>{intl l='Code' d='customcontact.bo.default'}</th>
-                  <th>{intl l='Field Configuration' d='customcontact.bo.default'}</th>
-                  <th>{intl l='Receiver Email' d='customcontact.bo.default'}</th>
-                  <th>{intl l='Return url' d='customcontact.bo.default'}</th>
-                  <th>{intl l='Success message' d='customcontact.bo.default'}</th>
-                  <th>&nbsp;</th>
-                </tr>
-                </thead>
+                                <tbody>
 
-                <tbody>
+                                {include
+                                file = "includes/inner-form-toolbar.html"
+                                hide_submit_buttons = true
+                                }
 
-                {include
-                file = "includes/inner-form-toolbar.html"
-                hide_submit_buttons = true
-                }
+                                {loop type="custom_contact_loop" name="custom_contact" lang_id=$edit_language_id order=""}
+                                    <tr>
+                                                <td>
+                                                    {$ID}
+                                                </td>
+                                                <td>
+                                                    {$TITLE}
+                                                </td>
 
-                {loop type="custom_contact_loop" name="custom_contact" lang_id=$edit_language_id}
-                  <tr>
-                    {form name="customcontact_form_custom_contact_form"}
-                    <form method="POST" action="{url path="/admin/module/CustomContact/update/$ID"}" {form_enctype} >
+                                                <td>
+                                                   {$CODE}
+                                                </td>
 
-                      {render_form_field field="success_url" value={url path='/admin/module/CustomContact'}}
-                      {render_form_field field="error_url" value={url path='/admin/module/CustomContact'}}
+                                                <td>
+                                                    {$EMAIL}
+                                                </td>
 
-                      {form_hidden_fields }
-
-                      <td>
-                      {form_field field="title"}
-                         <input type="text" name="{$name}" value="{$TITLE}"/>
-                      {/form_field}
-                      </td>
-
-                      <td>
-                      {form_field field="code"}
-                        <input type="text" name="{$name}" value="{$CODE}"/>
-                      {/form_field}
-                      </td>
-
-                      <td>
-                        {form_field field="field_configuration"}
-                          <textarea name="{$name}">{$FIELD_CONFIGURATION}</textarea>
-                        {/form_field}
-                      </td>
-
-                      <td>
-                        {form_field field="receiver_email"}
-                          <input type="email" name="{$name}" value="{$EMAIL}"/>
-                        {/form_field}
-                      </td>
-
-                      <td>
-                        {form_field field="return_url"}
-                          <input type="text" name="{$name}" value="{$RETURN_URL}"/>
-                        {/form_field}
-                      </td>
-
-                      <td>
-                        {form_field field="success_message"}
-                          <textarea name="{$name}" rows="4" cols="25">{$SUCCESS_MESSAGE}</textarea>
-                        {/form_field}
-                      </td>
-
-                      <td>
-                        <button type="submit" class="btn btn-success" >
-                          <span class="glyphicon glyphicon-floppy-disk"></span>
-                        </button>
-
-                        <a href="{url path="/admin/module/CustomContact/delete/$ID"}" class="btn btn-danger" title="{intl l='Delete this custom contact form' d='customcontact.bo.default'}">
-                          <i class="glyphicon glyphicon-remove"></i>
-                        </a>
-                      </td>
-                    </form>
-                    {/form}
-                  </tr>
-                {/loop}
-                </tbody>
-              </table>
-            </div>
-
-            <div id="create" class="tab-pane {if $tab eq "create"}active{/if} form-container">
-              <br>
-
-              <div class="title">
-                {intl l="Create Custom Contact Form" d='customcontact.bo.default'}
-              </div>
-
-            {form name="customcontact_form_custom_contact_form"}
-              <form method="POST" action="{url path="/admin/module/CustomContact/create"}" {form_enctype} >
-
-                {include
-                file = "includes/inner-form-toolbar.html"
-                hide_submit_buttons = false
-
-                page_url  = {url path="/admin/module/CustomContact"}
-                close_url = {url path="/admin/modules"}
-                }
-
-                {render_form_field field="success_url" value={url path='/admin/module/CustomContact'}}
-                {render_form_field field="error_url" value={url path='/admin/module/CustomContact'}}
-
-                {form_hidden_fields }
-
-                {if $form_error}
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="alert alert-danger">{$form_error_message}</div>
+                                                <td>
+                                                    <a href="{url path="/admin/custom_contact/$ID"}"
+                                                       class="btn btn-info"
+                                                       title="{intl l='Delete this custom contact form' d='customcontact.bo.default'}">
+                                                        <i class="glyphicon glyphicon-pencil"></i>
+                                                    </a>
+                                                    <a href="{url path="/admin/custom_contact/delete/$ID"}"
+                                                       class="btn btn-danger"
+                                                       title="{intl l='Delete this custom contact form' d='customcontact.bo.default'}">
+                                                        <i class="glyphicon glyphicon-trash"></i>
+                                                    </a>
+                                                </td>
+                                    </tr>
+                                {/loop}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                  </div>
-                {/if}
-
-                <div class="col-md-6">
-                  {render_form_field field='title'}
-                  {render_form_field field='code'}
-                  {render_form_field field='field_configuration'}
-                  {render_form_field field='receiver_email'}
-                  {render_form_field field='return_url'}
-                  {render_form_field field='success_message'}
-                  <button type="submit" class="btn btn-success" >{intl l="Save Form" d="customcontact.bo.default"}</button>
                 </div>
-              </form>
-            {/form}
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
