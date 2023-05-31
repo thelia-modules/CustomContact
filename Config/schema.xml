@@ -10,9 +10,6 @@
         <column name="return_url" size="255" type="VARCHAR" />
         <column name="success_message" size="255" type="LONGVARCHAR" />
         <behavior name="timestampable" />
-        <behavior name="i18n">
-            <parameter name="i18n_columns" value="title, field_configuration, email, success_message" />
-        </behavior>
     </table>
 
   <external-schema filename="local/config/schema.xml" referenceOnly="true" />

@@ -20,14 +20,9 @@ class CustomContactController extends BaseFrontController
     #[Route('', name:'view', methods: 'GET')]
     public function viewAction(RequestStack $requestStack, string $code): Response
     {
-        $request = $requestStack->getCurrentRequest();
-
-        $locale = $this->findLocale($request);
-
         $customContact = CustomContactQuery::create()
             ->filterByCode($code)
             ->useCustomContactI18nQuery()
-            ->filterByLocale($locale)
             ->endUse()
             ->find();
 
@@ -44,10 +39,6 @@ class CustomContactController extends BaseFrontController
         RequestStack $requestStack,
         string $code
     ) {
-        $request = $requestStack->getCurrentRequest();
-
-        $locale = $this->findLocale($request);
-
         $customContactForm = CustomContactQuery::create()
             ->filterByCode($code)
             ->findOne();
@@ -56,12 +47,14 @@ class CustomContactController extends BaseFrontController
             throw new NotFoundHttpException();
         }
 
-        $customContactForm->setLocale($locale);
         $dispatcher
             ->dispatch(
                 new CustomContactEvent(
                     $customContactForm,
-                    $requestStack->getCurrentRequest()->request->all(),
+                    array_combine(
+                        array_map(fn($k) => str_replace('_', ' ', $k), array_keys($requestStack->getCurrentRequest()->request->all())),
+                        $requestStack->getCurrentRequest()->request->all()
+                    ),
                     $requestStack->getCurrentRequest()->files->all()
                 ),
                 CustomContactEvent::SUBMIT
@@ -85,16 +78,5 @@ class CustomContactController extends BaseFrontController
                 'successMessage' => $customContactForm->getSuccessMessage()
             ]
         );
-    }
-
-    protected function findLocale(Request $request)
-    {
-        $locale = $request->get('locale');
-
-        if (null == $locale) {
-            $locale = $request->getSession()->getLang()->getLocale();
-        }
-
-        return $locale;
     }
 }

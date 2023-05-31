@@ -20,25 +20,6 @@ class CustomContactLoop extends BaseLoop implements PropelSearchLoopInterface
     {
         /* @var CustomContact $customFieldForm */
         foreach ($loopResult->getResultDataCollection() as $customFieldForm) {
-
-            if ($this->getLang() !== null)
-            {
-                $lang = LangQuery::create()
-                    ->filterByLocale($this->getLang())
-                    ->findOne();
-
-                $customFieldForm->setLocale($lang->getLocale());
-            }
-
-            if ($this->getLangId() !== null)
-            {
-                $lang = LangQuery::create()
-                    ->filterById($this->getLangId())
-                    ->findOne();
-
-                $customFieldForm->setLocale($lang->getLocale());
-            }
-
             $loopResultRow = new LoopResultRow($customFieldForm);
 
             $loopResultRow
@@ -46,7 +27,6 @@ class CustomContactLoop extends BaseLoop implements PropelSearchLoopInterface
                 ->set('TITLE', $customFieldForm->getTitle())
                 ->set('CODE', $customFieldForm->getCode())
                 ->set('FIELD_CONFIGURATION', $customFieldForm->getFieldConfiguration())
-                ->set('LOCALE', $customFieldForm->getLocale())
                 ->set('EMAIL', $customFieldForm->getEmail())
                 ->set('RETURN_URL', $customFieldForm->getReturnUrl())
                 ->set('SUCCESS_MESSAGE', $customFieldForm->getSuccessMessage())
@@ -85,8 +65,6 @@ class CustomContactLoop extends BaseLoop implements PropelSearchLoopInterface
     {
         return new ArgumentCollection(
             Argument::createIntListTypeArgument('id'),
-            Argument::createAnyListTypeArgument('lang'),
-            Argument::createAnyListTypeArgument('lang_id'),
             Argument::createAlphaNumStringListTypeArgument('code')
         );
     }

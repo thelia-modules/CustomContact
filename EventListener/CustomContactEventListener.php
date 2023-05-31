@@ -31,10 +31,12 @@ class CustomContactEventListener implements EventSubscriberInterface
     public function sendCustomerContact(CustomContactEvent $event)
     {
         $storeEmail = ConfigQuery::getStoreEmail();
+        $receiverEmail = $event->getCustomContact()->getEmail() ?? $storeEmail;
+
         $email = $this->mailer->createEmailMessage(
             CustomContact::MAIL_CUSTOM_CONTACT,
             [$storeEmail => ConfigQuery::getStoreName()],
-            [$event->getCustomContact()->getEmail() => ConfigQuery::getStoreName()],
+            [$receiverEmail => ConfigQuery::getStoreName()],
             [
                 'store_name' => ConfigQuery::getStoreName(),
                 'fields' => $event->getFields()

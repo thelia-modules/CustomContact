@@ -41,12 +41,6 @@
                         {form name="customcontact_form_custom_contact_form"}
                             <form method="POST"
                                   action="{url path="/admin/custom_contact/%id" id=$id}" {form_enctype} >
-                                {include file = "includes/inner-form-toolbar.html"
-                                    page_url   = "{url path="/admin/custom_contact/%id" id=$id}"
-                                    close_url   = "{url path="/admin/module/CustomContact"}"
-                                    hide_save_and_close_button = true
-                                    hide_submit_buttons = true
-                                }
                                 <div class="row">
                                     <div class="col-sm-8 col-sm-offset-2">
                                         {render_form_field field="error_url" value={url path='/admin/custom_contact/%id' id=$id}}

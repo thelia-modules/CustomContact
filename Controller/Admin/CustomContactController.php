@@ -47,8 +47,6 @@ class CustomContactController extends BaseAdminController
             return new Response(status: Response::HTTP_NOT_FOUND);
         }
 
-        $customContact->setLocale($this->getCurrentEditionLocale());
-
         return $this->render(
             'custom_contact/form',
             [
@@ -102,7 +100,6 @@ class CustomContactController extends BaseAdminController
             $data = $this->validateForm($form)->getData();
 
             $customContact
-                ->setLocale($this->getCurrentEditionLocale())
                 ->setTitle($data["title"])
                 ->setCode($data["code"])
                 ->setFieldConfiguration($data["field_configuration"])

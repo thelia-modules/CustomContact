@@ -10,7 +10,7 @@
 {block name="main-content"}
     {loop type="custom_contact_loop" name="custom_contact" lang=$lang_locale code=$code|default:null}
 
-        {include file="components/smarty/PageHeader/PageHeader.html" TITLE={$TITLE}}
+        {include file="components/smarty/PageHeader/PageHeader.html" TITLE={intl l=$TITLE d="customcontact"}}
         <br>
         <div class="container mx-auto mb-24">
             <div class="max-w-[714px] mx-auto">

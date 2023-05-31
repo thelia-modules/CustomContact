@@ -2,27 +2,28 @@
 
 namespace CustomContact\Loop;
 
+use CustomContact\Model\CustomContact;
 use CustomContact\Model\CustomContactQuery;
 use Propel\Runtime\ActiveQuery\Criteria;
-use Thelia\Core\Template\Element\BaseI18nLoop;
+use Thelia\Core\Template\Element\BaseLoop;
 use Thelia\Core\Template\Element\LoopResult;
 use Thelia\Core\Template\Element\LoopResultRow;
 use Thelia\Core\Template\Element\PropelSearchLoopInterface;
 use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 
-class CustomContactFieldLoop extends BaseI18nLoop implements PropelSearchLoopInterface
+class CustomContactFieldLoop extends BaseLoop implements PropelSearchLoopInterface
 {
     public function parseResults(LoopResult $loopResult)
     {
-        foreach ($loopResult->getResultDataCollection()->getData() as $field) {
+        /** @var CustomContact $form */
+        foreach ($loopResult->getResultDataCollection()->getData() as $form) {
+            $fieldConfiguration = json_decode($form->getFieldConfiguration());
 
-            $fieldsConfiguration = json_decode($field->getVirtualColumn('i18n_FIELD_CONFIGURATION'));
+            foreach ($fieldConfiguration as $field) {
+                $loopResultRow = new LoopResultRow($form);
 
-            foreach ($fieldsConfiguration as $fieldConfiguration) {
-                $loopResultRow = new LoopResultRow($field);
-
-                foreach ($fieldConfiguration as $key => $value) {
+                foreach ($field as $key => $value) {
                     $loopResultRow->set(str_replace(' ', '_', strtoupper($key)), $value);
                 }
 
@@ -48,13 +49,6 @@ class CustomContactFieldLoop extends BaseI18nLoop implements PropelSearchLoopInt
         if (null !== $code) {
             $search->filterByCode($code, Criteria::IN);
         }
-
-        $this->configureI18nProcessing(
-            $search,
-            [
-                'FIELD_CONFIGURATION',
-            ]
-        );
 
         return $search;
     }
