@@ -24,7 +24,16 @@
                                             <div class="Input-label">
                                                 {$LABEL}{if $REQUIRED} <span class="required">*</span>{/if} :
                                             </div>
-                                            {if $TYPE !== "textarea"}
+                                            {if $TYPE === "file"}
+                                                <input
+                                                        type="file"
+                                                        id="{$LABEL}"
+                                                        name="{$NAME|default:$LABEL}[]"
+                                                        class="Input-field text-primary "
+                                                        accept=".pdf,.jpg,.jpeg,.png"
+                                                        multiple
+                                                >
+                                            {elseif $TYPE !== "textarea"}
                                                 <input
                                                     type="{$TYPE|default:'text'}"
                                                     id="{$LABEL}"

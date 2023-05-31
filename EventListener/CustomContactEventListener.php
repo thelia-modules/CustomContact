@@ -6,6 +6,7 @@ use CustomContact\CustomContact;
 use CustomContact\Event\CustomContactEvent;
 use CustomContact\Model\CustomContactQuery;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Thelia\Core\Event\ActionEvent;
 use Thelia\Mailer\MailerFactory;
@@ -30,8 +31,7 @@ class CustomContactEventListener implements EventSubscriberInterface
     public function sendCustomerContact(CustomContactEvent $event)
     {
         $storeEmail = ConfigQuery::getStoreEmail();
-
-        $this->mailer->sendEmailMessage(
+        $email = $this->mailer->createEmailMessage(
             CustomContact::MAIL_CUSTOM_CONTACT,
             [$storeEmail => ConfigQuery::getStoreName()],
             [$event->getCustomContact()->getEmail() => ConfigQuery::getStoreName()],
@@ -40,5 +40,14 @@ class CustomContactEventListener implements EventSubscriberInterface
                 'fields' => $event->getFields()
             ]
         );
+
+        foreach ($event->getFileFields() as $fileField) {
+            /** @var UploadedFile $file */
+            foreach ($fileField as $file) {
+                $email->attach($file->getContent(), $file->getClientOriginalName());
+            }
+        }
+
+        $this->mailer->send($email);
     }
 }

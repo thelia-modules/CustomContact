@@ -57,12 +57,12 @@ class CustomContactController extends BaseFrontController
         }
 
         $customContactForm->setLocale($locale);
-
         $dispatcher
             ->dispatch(
                 new CustomContactEvent(
                     $customContactForm,
-                    $requestStack->getCurrentRequest()->request->all()
+                    $requestStack->getCurrentRequest()->request->all(),
+                    $requestStack->getCurrentRequest()->files->all()
                 ),
                 CustomContactEvent::SUBMIT
             );

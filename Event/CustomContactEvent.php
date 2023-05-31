@@ -10,43 +10,41 @@ class CustomContactEvent
 
     public function __construct(
         private CustomContact $customContact,
-        private array $fields
+        private array $fields,
+        private array $fileFields
     ) {
     }
 
-    /**
-     * @return CustomContact
-     */
     public function getCustomContact(): CustomContact
     {
         return $this->customContact;
     }
 
-    /**
-     * @param CustomContact $customContact
-     * @return CustomContactEvent
-     */
     public function setCustomContact(CustomContact $customContact): CustomContactEvent
     {
         $this->customContact = $customContact;
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getFields(): array
     {
         return $this->fields;
     }
 
-    /**
-     * @param array $fields
-     * @return CustomContactEvent
-     */
     public function setFields(array $fields): CustomContactEvent
     {
         $this->fields = $fields;
+        return $this;
+    }
+
+    public function getFileFields(): array
+    {
+        return $this->fileFields;
+    }
+
+    public function setFileFields(array $fileFields): CustomContactEvent
+    {
+        $this->fileFields = $fileFields;
         return $this;
     }
 }
