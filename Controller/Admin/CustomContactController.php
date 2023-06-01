@@ -102,7 +102,7 @@ class CustomContactController extends BaseAdminController
             $customContact
                 ->setTitle($data["title"])
                 ->setCode($data["code"])
-                ->setFieldConfiguration($data["field_configuration"])
+                ->setFieldConfiguration(addslashes($data["field_configuration"]))
                 ->setEmail($data["receiver_email"])
                 ->setReturnUrl($data["return_url"])
                 ->setSuccessMessage($data["success_message"])
