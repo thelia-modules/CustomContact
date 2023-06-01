@@ -122,7 +122,7 @@
         var textInputLabel = "{intl l="Simple field" d='customcontact.bo.default'}";
         var textAreaLabel = "{intl l="Long text field" d='customcontact.bo.default'}";
 
-        var startVal = JSON.parse('{$customContact->getFieldConfiguration()|default: "[]"|strip nofilter}');
+        var startVal = {$customContact->getFieldConfiguration()|default: "[]"|strip nofilter};
 
         {literal}
         const element = document.getElementById('editor_holder');
