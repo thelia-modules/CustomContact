@@ -39,8 +39,26 @@ class TranslationEventListener implements EventSubscriberInterface
                             false,
                             false
                         ),
-                        'custom_fallback' => "",
-                        'global_fallback' => "",
+                        'custom_fallback' => Translator::getInstance()->trans(
+                            sprintf(
+                                Translator::GLOBAL_FALLBACK_KEY,
+                                $event->getDomain(),
+                                $label
+                            ),
+                            [],
+                            Translator::GLOBAL_FALLBACK_DOMAIN,
+                            $event->getLocale(),
+                            false,
+                            false
+                        ),
+                        'global_fallback' => Translator::getInstance()->trans(
+                            $label,
+                            [],
+                            Translator::GLOBAL_FALLBACK_DOMAIN,
+                            $event->getLocale(),
+                            false,
+                            false
+                        ),
                         'dollar' => false,
                     ];
                 }
@@ -60,8 +78,26 @@ class TranslationEventListener implements EventSubscriberInterface
                             false,
                             false
                         ),
-                        'custom_fallback' => "",
-                        'global_fallback' => "",
+                        'custom_fallback' => Translator::getInstance()->trans(
+                            sprintf(
+                                Translator::GLOBAL_FALLBACK_KEY,
+                                $event->getDomain(),
+                                $label
+                            ),
+                            [],
+                            Translator::GLOBAL_FALLBACK_DOMAIN,
+                            $event->getLocale(),
+                            false,
+                            false
+                        ),
+                        'global_fallback' => Translator::getInstance()->trans(
+                            $label,
+                            [],
+                            Translator::GLOBAL_FALLBACK_DOMAIN,
+                            $event->getLocale(),
+                            false,
+                            false
+                        ),
                         'dollar' => false,
                     ];
                 }
@@ -81,8 +117,26 @@ class TranslationEventListener implements EventSubscriberInterface
                             false,
                             false
                         ),
-                        'custom_fallback' => "",
-                        'global_fallback' => "",
+                        'custom_fallback' => Translator::getInstance()->trans(
+                            sprintf(
+                                Translator::GLOBAL_FALLBACK_KEY,
+                                $event->getDomain(),
+                                $label
+                            ),
+                            [],
+                            Translator::GLOBAL_FALLBACK_DOMAIN,
+                            $event->getLocale(),
+                            false,
+                            false
+                        ),
+                        'global_fallback' => Translator::getInstance()->trans(
+                            $label,
+                            [],
+                            Translator::GLOBAL_FALLBACK_DOMAIN,
+                            $event->getLocale(),
+                            false,
+                            false
+                        ),
                         'dollar' => false,
                     ];
                 }
