@@ -61,52 +61,24 @@
                             <form method="POST"
                                   action="{url path="/admin/custom_contact/%id" id=$id}" {form_enctype} >
                                 <div class="row">
+                                    {if $form_error}
+                                        <div class="col-sm-8 col-sm-offset-2">
+                                            <div class="alert alert-danger">{$form_error_message}</div>
+                                        </div>
+                                    {/if}
                                     <div class="col-sm-8 col-sm-offset-2">
                                         {render_form_field field="error_url" value={url path='/admin/custom_contact/%id' id=$id}}
                                         {render_form_field field="success_url" value={url path='/admin/module/CustomContact'}}
 
                                         {form_hidden_fields }
 
-                                        {form_field field="title"}
-                                            <div class="form-group {if $error}has-error{/if}">
-                                                <label for="{$label_attr.for}" class="control-label">{$label} : </label>
-                                                <input type="text" id="{$label_attr.for}" name="{$name}"
-                                                       class="form-control" value="{$customContact->getTitle()|default:null}">
-                                            </div>
-                                        {/form_field}
+                                        {render_form_field field="id" value=$customContact->getId()|default:null}
 
-                                        {form_field field="code"}
-                                            <div class="form-group {if $error}has-error{/if}">
-                                                <label for="{$label_attr.for}" class="control-label">{$label} : </label>
-                                                <input type="text" id="{$label_attr.for}" name="{$name}"
-                                                       class="form-control" value="{$customContact->getCode()|default:null}">
-                                            </div>
-                                        {/form_field}
-
-                                        {form_field field="receiver_email"}
-                                            <div class="form-group {if $error}has-error{/if}">
-                                                <label for="{$label_attr.for}" class="control-label">{$label} : </label>
-                                                <input type="text" id="{$label_attr.for}" name="{$name}"
-                                                       class="form-control" value="{$customContact->getEmail()|default:null}">
-                                            </div>
-                                        {/form_field}
-
-                                        {form_field field="return_url"}
-                                            <div class="form-group {if $error}has-error{/if}">
-                                                <label for="{$label_attr.for}" class="control-label">{$label} : </label>
-                                                <input type="text" id="{$label_attr.for}" name="{$name}"
-                                                       class="form-control" value="{$customContact->getReturnUrl()|default:null}">
-                                            </div>
-                                        {/form_field}
-
-                                        {form_field field="success_message"}
-                                            <div class="form-group {if $error}has-error{/if}">
-                                                <label for="{$label_attr.for}" class="control-label">{$label} : </label>
-                                                <br>
-                                                <textarea id="{$label_attr.for}" name="{$name}" rows="4"
-                                                          cols="50" class="form-control">{$customContact->getSuccessMessage()}</textarea>
-                                            </div>
-                                        {/form_field}
+                                        {render_form_field field="title" value=$customContact->getTitle()|default:null}
+                                        {render_form_field field="code" value=$customContact->getCode()|default:null}
+                                        {render_form_field field="receiver_email" value=$customContact->getEmail()|default:null}
+                                        {render_form_field field="return_url" value=$customContact->getReturnUrl()|default:null}
+                                        {render_form_field field="success_message" value=$customContact->getSuccessMessage()|default:null}
 
                                         {form_field field="field_configuration"}
                                             <input id="json_field" type="hidden" name="{$name}">

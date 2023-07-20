@@ -30,26 +30,37 @@ class CustomContactEventListener implements EventSubscriberInterface
 
     public function sendCustomerContact(CustomContactEvent $event)
     {
-        $storeEmail = ConfigQuery::getStoreEmail();
-        $receiverEmail = $event->getCustomContact()->getEmail() ?? $storeEmail;
+        $customContact = $event->getCustomContact();
 
-        $email = $this->mailer->createEmailMessage(
-            CustomContact::MAIL_CUSTOM_CONTACT,
-            [$storeEmail => ConfigQuery::getStoreName()],
-            [$receiverEmail => ConfigQuery::getStoreName()],
-            [
-                'store_name' => ConfigQuery::getStoreName(),
-                'fields' => $event->getFields()
-            ]
-        );
+        $destinationEmails = array_map('trim', explode(',', $customContact->getEmail()));
 
-        foreach ($event->getFileFields() as $fileField) {
-            /** @var UploadedFile $file */
-            foreach ($fileField as $file) {
-                $email->attach($file->getContent(), $file->getClientOriginalName());
-            }
+        if (empty($destinationEmails)) {
+            $destinationEmails = [ConfigQuery::getStoreEmail()];
         }
 
-        $this->mailer->send($email);
+        foreach ($destinationEmails as $emailAddress) {
+            $email = $this->mailer->createEmailMessage(
+                CustomContact::MAIL_CUSTOM_CONTACT,
+                [ConfigQuery::getStoreEmail() => $event->getCustomContact()->getTitle()],
+                [$emailAddress => ConfigQuery::getStoreName()],
+                [
+                    'form_title' => $customContact->getTitle(),
+                    'store_name' => ConfigQuery::getStoreName(),
+                    'fields' => $event->getFields()
+                ]
+            );
+
+            foreach ($event->getFileFields() as $fileField) {
+                /** @var UploadedFile $file */
+                foreach ($fileField as $file) {
+                    $email->attach($file->getContent(), $file->getClientOriginalName());
+                }
+            }
+
+            // Override subject
+            $email->subject($customContact->getTitle());
+
+            $this->mailer->send($email);
+        }
     }
 }

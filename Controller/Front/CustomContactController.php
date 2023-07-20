@@ -6,15 +6,13 @@ use CustomContact\Event\CustomContactEvent;
 use CustomContact\Model\CustomContactQuery;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Requirement\Requirement;
 use Thelia\Controller\Front\BaseFrontController;
 
-#[Route('/custom_contact/{code}', name: 'front_custom_contact_', requirements: ['code' => Requirement::ASCII_SLUG])]
+#[Route('/custom_contact/{code}', name: 'front_custom_contact_', requirements: ['code' => '[A-Za-z0-9_-]+'])]
 class CustomContactController extends BaseFrontController
 {
     #[Route('', name:'view', methods: 'GET')]

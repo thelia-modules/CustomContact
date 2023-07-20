@@ -1,9 +1,8 @@
-{default_translation_domain domain="customcontact.email.default"}
+{intl l="Hello," d='customcontact.email.default'}
+{intl l="A new form has been submited from %store : %form_title" store=$store_name form_title=$form_title' d='customcontact.email.default'}</p>
 
-{intl l="Welcome to %store_name" store_name={config key="store_name"}}
-
-{intl l="Here is your contact : "}
+{intl l="Here the data entered for each field :" d='customcontact.email.default'}
 
 {foreach from=$fields key=label item=value}
-    {$label} : {$value}
+- {intl l=$label d='customcontact.email.default'} : {$value}
 {/foreach}
