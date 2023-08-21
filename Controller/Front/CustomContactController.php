@@ -20,8 +20,6 @@ class CustomContactController extends BaseFrontController
     {
         $customContact = CustomContactQuery::create()
             ->filterByCode($code)
-            ->useCustomContactI18nQuery()
-            ->endUse()
             ->find();
 
         return $this->render('custom_contact/form',
