@@ -160,6 +160,27 @@
                                 },
                                 "title": "{intl l="Field type" d='customcontact.bo.default' js=1}"
                             },
+                            "Liste email contact": {
+                                "title": "{intl l="Email" d='customcontact.bo.default' js=1}",
+                                "type": "array",
+                                "options": {
+                                    "dependencies": {
+                                        "type": "select-contact"
+                                    }
+                                },
+                                "items": {
+                                    "properties": {
+                                        "email": {
+                                            "type": "string",
+                                            "title": "Email"
+                                        },
+                                        "label": {
+                                            "type": "string",
+                                            "title": "Label"
+                                        },
+                                    }
+                                },
+                            },
                             "Liste selection multiple": {
                                 "title": "{intl l="Multiple selection" d='customcontact.bo.default' js=1}",
                                 "type": "boolean",

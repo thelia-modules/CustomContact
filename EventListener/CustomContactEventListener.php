@@ -16,15 +16,6 @@ class CustomContactEventListener implements EventSubscriberInterface
 {
     const SUBMIT = 'custom_contact_event_submit_form';
 
-    const CONTACT_LIST = [
-        "question" => "christine.chalat@billaudot.com",
-        "note" => "emmanuel.gaultier@billaudot.com",
-        "assistance" => "christine.chalat@billaudot.com",
-        "delete" => "lucie.barthod@billaudot.com",
-        "audio" => "christine.chalat@billaudot.com",
-        "other" => "contact@billaudot.com"
-    ];
-
     public function __construct(
         protected MailerFactory $mailer
     ) {
@@ -47,21 +38,25 @@ class CustomContactEventListener implements EventSubscriberInterface
 
         // check if the custom contact form has a select contact field
         $hasSelectListContact = false;
+        $labelSelectListContact = '';
         $selectedContact = false;
 
         // we verify the select contact exists
         foreach ($fields as $field) {
             if ($field['type'] === 'select-contact') {
                 $hasSelectListContact = true;
+                $labelSelectListContact = $field['label'];
                 break;
             }
         }
 
         // and we verify the user selected a value in this select
-        foreach ($event->getFields() as $field) {
-            if (array_key_exists($field, self::CONTACT_LIST)) {
-                $selectedContact = self::CONTACT_LIST[$field];
-                break;
+        if ($hasSelectListContact !== false) {
+            foreach ($event->getFields() as $key => $field) {
+                if ($labelSelectListContact === $key && filter_var($field, FILTER_VALIDATE_EMAIL)) {
+                    $selectedContact = $field;
+                    break;
+                }
             }
         }
 
