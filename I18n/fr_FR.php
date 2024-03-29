@@ -11,4 +11,6 @@ return array(
     'Success message' => 'Message de succès',
     'Title' => 'Titre',
     'Update ' => 'Mettre à jour',
+    "Multiple selection" => "Sélection multiple",
+    "Options" => "Options",
 );
