@@ -17,6 +17,7 @@ use CustomContact\Model\CustomContactQuery;
 use OpenApi\Controller\Front\BaseFrontOpenApiController;
 use OpenApi\Model\Api\ModelFactory;
 use OpenApi\Service\OpenApiService;
+use Thelia\Core\HttpFoundation\JsonResponse;
 use Thelia\Core\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use OpenApi\Annotations as OA;
@@ -68,7 +69,7 @@ class OpenApiController extends BaseFrontOpenApiController
      */
     public function getForms(
         Request $request,
-        ModelFactory $modelFactory
+        ModelFactory $modelFactory,
     ) {
         $locale = $this->findLocale($request);
 
@@ -82,12 +83,26 @@ class OpenApiController extends BaseFrontOpenApiController
             $formQuery->filterByCode($code);
         }
 
-        return OpenApiService::jsonResponse(array_map(
-            function (CustomContact $form) use ($modelFactory, $locale) {
-                return $modelFactory->buildModel('CustomContact', $form, $locale);
-            },
-            iterator_to_array($formQuery->find())
-        ));
+        $arr = [];
+
+        /**
+         * @var CustomContact $form
+         */
+        foreach ($formQuery->find() as $form) {
+            /** @var \CustomContact\Model\Api\CustomContact $objet */
+            $objet = $modelFactory->buildModel('CustomContact', $form, $locale);
+
+            $arr[] = [
+                "id" => $objet->getId(),
+                "code" => $objet->getCode(),
+                "title" => $objet->getTitle(),
+                "email" => $objet->getEmail(),
+                "fieldConfiguration" => $objet->getFieldConfiguration(),
+                "returnUrl" => $objet->getReturnUrl(),
+            ];
+        }
+
+        return OpenApiService::jsonResponse($arr);
     }
 
     protected function findLocale(Request $request)
