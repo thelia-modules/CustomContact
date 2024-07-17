@@ -90,7 +90,7 @@ class CustomContactEventListener implements EventSubscriberInterface
         foreach ($event->getFileFields() as $fileField) {
             /** @var UploadedFile $file */
             foreach ($fileField as $file) {
-                $email->attach($file->getContent(), $file->getClientOriginalName());
+                $emailService->attach($file->getContent(), $file->getClientOriginalName());
             }
         }
 
