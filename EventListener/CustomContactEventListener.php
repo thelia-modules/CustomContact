@@ -43,7 +43,7 @@ class CustomContactEventListener implements EventSubscriberInterface
 
         // we verify the select contact exists
         foreach ($fields as $field) {
-            if ($field['type'] === 'select-contact') {
+            if (isset($field['type']) && $field['type'] === 'select-contact') {
                 $hasSelectListContact = true;
                 $labelSelectListContact = $field['label'];
                 break;
